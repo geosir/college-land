@@ -8,9 +8,11 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-          crossorigin=""/>
+    <!--    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"-->
+    <!--          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="-->
+    <!--          crossorigin=""/>-->
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet'/>
+
 
     <style>
         #map {
@@ -43,31 +45,24 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
-            integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
-            crossorigin=""></script>
+    <!--    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"-->
+    <!--            integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="-->
+    <!--            crossorigin=""></script>-->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
 
     <script>
         $(document).ready(() => {
-            function loadLayers(map) {
-                $.get("data/ASSESSING_ParcelsFY2019.geojson").then((data) => {
-                    console.log(data);
-                    L.geoJSON(data).addTo(map);
-                });
-            }
-
-            let map = L.map('map');
-            map.setView(new L.LatLng(42.37376, -71.11697), 17);
-
-            const osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-            const osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
-            let osm = new L.TileLayer(osmUrl, {minZoom: 16, maxZoom: 19, attribution: osmAttrib});
-
-            map.addLayer(osm);
-
-            loadLayers(map);
+            mapboxgl.accessToken = 'pk.eyJ1IjoiZ21vZSIsImEiOiJjanVlOG9ieXcwMHhqNGZwajg4eHAzc3BkIn0.fPSaWJ9wFaTLh8TGn3QQug';
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/gmoe/cjue9m5dg2egf1fqxavz4plox',
+                center: [-71.116569, 42.373759],
+                zoom: 16
+            });
         });
     </script>
+
+
 </head>
 <body>
 <div id="map"></div>

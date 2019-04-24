@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CollegeLand</title>
+    <title>Unitopia</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -12,7 +12,13 @@
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
 
+
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
         #map {
             position: absolute;
             top: 0;
@@ -24,11 +30,14 @@
 
         #header {
             position: absolute;
+            left: 0;
             right: 0;
             top: 0;
             padding: 16px;
-            text-align: right;
-            background-color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            /*background-color: rgba(255, 255, 255, 0.5);*/
+            background-color: rgba(20, 20, 20, 0.5);
+            color: white;
         }
     </style>
 
@@ -46,31 +55,73 @@
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
             integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
             crossorigin=""></script>
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"
+            integrity="sha512-tyPum7h2h36X52O2gz+Pe8z/3l+Y9S1yEUscbVs5r5aEY5dFmP1WWRY/WLLElnFHa+k1JBQZSCDGwEAnm2IxAQ=="
+            crossorigin=""></script>
 
     <script>
         $(document).ready(() => {
-            function loadLayers(map) {
-                $.get("data/ASSESSING_ParcelsFY2019.geojson").then((data) => {
-                    console.log(data);
-                    L.geoJSON(data).addTo(map);
+            var webmapId = '6fda7e2ca6c440e59a20805c563faa60'; // Unitopia
+
+            var webmap = L.esri.webMap(webmapId, {
+                map: L.map("map", {
+                    zoomControl: false,
+                    minZoom: 12,
+                    maxZoom: 16
+                })
+            });
+
+            webmap.on('load', function () {
+                var overlayMaps = {};
+                webmap.layers.map(function (l) {
+                    overlayMaps[l.title] = l.layer;
                 });
-            }
+                // L.control.layers({}, overlayMaps, {
+                //     position: 'bottomleft'
+                // }).addTo(webmap._map);
+            });
 
-            let map = L.map('map');
-            map.setView(new L.LatLng(42.37376, -71.11697), 17);
-
-            const osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-            const osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
-            let osm = new L.TileLayer(osmUrl, {minZoom: 16, maxZoom: 19, attribution: osmAttrib});
-
-            map.addLayer(osm);
-
-            loadLayers(map);
+            // var fl = L.esri.featureLayer({
+            //     url: 'https://services1.arcgis.com/qN3V93cYGMKQCOxL/arcgis/rest/services/Harvard_Land_2019_(Boston)/FeatureServer/0',
+            //     // where: "COMMON_NAM = 'Osmanthus'",
+            //     onEachFeature: function (layer) {
+            //         // console.log(layer);
+            //         // an offset keeps the from drawing directly on top of the marker
+            //         // var popup = L.popup({offset: L.point([1, -30])})
+            //         // // use the geometry of each feature to anchor the popup
+            //         //     .setLatLng([layer.geometry.coordinates[1], layer.geometry.coordinates[0]])
+            //         //     .setContent('<p>Hello world!<br />This is a nice popup.</p>')
+            //         //     .openOn(webmap._map);
+            //     }
+            // }).addTo(webmap._map);
         });
     </script>
 </head>
 <body>
+
+<!-- Load Leaflet Label from GitHub -->
+<script src="https://leaflet.github.io/Leaflet.label/leaflet.label.js"></script>
+
+<!-- Include Leaflet.heat from CDN -->
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+<!-- Load Heatmap Feature Layer from CDN -->
+<script src="https://cdn.jsdelivr.net/leaflet.esri.heatmap-feature-layer/2.0.0-beta.1/esri-leaflet-heatmap-feature-layer.js"></script>
+
+<!-- Load Esri Leaflet Renderers from CDN -->
+<script src="http://cdn.jsdelivr.net/leaflet.esri.renderers/2.0.2/esri-leaflet-renderers.js"></script>
+
+<!-- Load Vector Icon from GitHub -->
+<script src="https://muxlab.github.io/Leaflet.VectorIcon/L.VectorIcon.js"></script>
+
+<!-- Load Leaflet Omnivore -->
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+
+<!-- Load L.esri.WebMap -->
+<script src="https://cdn.jsdelivr.net/leaflet.esri.webmap/0.4.0/esri-leaflet-webmap.js"></script>
+
 <div id="map"></div>
-<div id="header"><h1><span style="color: #0000ff">College</span><span style="color: #ff0000">Land</span></h1></div>
+<div id="header"><h1>Unitopia</h1></div>
 </body>
 </html>

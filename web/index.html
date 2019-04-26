@@ -64,7 +64,7 @@
         $(document).ready(() => {
             var webmapId = '6fda7e2ca6c440e59a20805c563faa60'; // Unitopia
 
-            var webmap = L.esri.webMap(webmapId, {
+            var map = L.esri.webMap(webmapId, {
                 map: L.map("map", {
                     zoomControl: false,
                     minZoom: 12,
@@ -72,29 +72,18 @@
                 })
             });
 
-            webmap.on('load', function () {
+            map.on('load', function () {
                 var overlayMaps = {};
-                webmap.layers.map(function (l) {
+                map.layers.map(function (l) {
                     overlayMaps[l.title] = l.layer;
+                    console.log("LAYER");
+                    console.log(l);
                 });
-                // L.control.layers({}, overlayMaps, {
-                //     position: 'bottomleft'
-                // }).addTo(webmap._map);
-            });
 
-            // var fl = L.esri.featureLayer({
-            //     url: 'https://services1.arcgis.com/qN3V93cYGMKQCOxL/arcgis/rest/services/Harvard_Land_2019_(Boston)/FeatureServer/0',
-            //     // where: "COMMON_NAM = 'Osmanthus'",
-            //     onEachFeature: function (layer) {
-            //         // console.log(layer);
-            //         // an offset keeps the from drawing directly on top of the marker
-            //         // var popup = L.popup({offset: L.point([1, -30])})
-            //         // // use the geometry of each feature to anchor the popup
-            //         //     .setLatLng([layer.geometry.coordinates[1], layer.geometry.coordinates[0]])
-            //         //     .setContent('<p>Hello world!<br />This is a nice popup.</p>')
-            //         //     .openOn(webmap._map);
-            //     }
-            // }).addTo(webmap._map);
+                L.control.layers({}, overlayMaps, {
+                    position: 'bottomleft'
+                }).addTo(map._map);
+            });
         });
     </script>
 </head>

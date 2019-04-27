@@ -19,15 +19,6 @@
             padding: 0;
         }
 
-        #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: -1;
-        }
-
         #header {
             position: absolute;
             left: 0;
@@ -37,6 +28,33 @@
             text-align: center;
             /*background-color: rgba(255, 255, 255, 0.5);*/
             background-color: rgba(20, 20, 20, 0.5);
+            color: white;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: -1;
+        }
+
+        #info {
+            background-color: rgba(20, 20, 20, 0.8);
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 25vw;
+
+            display: flex;
+        }
+
+        #info-content {
+            width: 100%;
+            align-self: center;
+            padding: 24px;
             color: white;
         }
     </style>
@@ -92,8 +110,16 @@
 <!-- Load L.esri.WebMap -->
 <script src="https://cdn.jsdelivr.net/leaflet.esri.webmap/0.4.0/esri-leaflet-webmap.js"></script>
 
-<div id="map"></div>
 <div id="header"><h1>Unitopia</h1></div>
+<div id="map"></div>
+<div id="info">
+    <div id="info-content">
+        <h1>Parcel Info</h1>
+        <p><b>Owner:</b> <span id="parcel-owner">Test text</span></p>
+        <p><b>Land Use:</b> <span id="parcel-use">Test text</span></p>
+        <p><b>Assessed Value:</b> <span id="parcel-value">Test text</span></p>
+    </div>
+</div>
 
 <script>
 
@@ -110,16 +136,29 @@
 
     webmap.on('load', function () {
         let overlayMaps = {};
+
         webmap.layers.map(function (l) {
             if (!l.title.includes("World")) overlayMaps[l.title] = l.layer;
-        });
 
-        console.log(webmap.layers[0].layer);
+            console.log("LAYER");
+            console.log(l.layer.on('dbclick', (e) => {
+                console.log("AAAAA", e);
+                // console.log("BBBBB", e.target.identify());
+            }));
+            // l.layer.on('createfeature', (feature) => {
+            //     console.log("CREATE FEATURE");
+            //     console.log(feature);
+            // });
+        });
 
         L.control.layers({}, overlayMaps, {
             position: 'bottomleft'
         }).addTo(webmap._map);
     });
+
+    webmap.on('click', () => {
+        console.log("CLICK!");
+    })
 </script>
 
 </body>

@@ -45,6 +45,7 @@
         }
 
         #info {
+            visibility: hidden;
             background-color: rgba(20, 20, 20, 0.7);
             position: absolute;
             top: 0;
@@ -77,7 +78,6 @@
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
             integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
             crossorigin=""></script>
-    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 
     <!-- Load Esri Leaflet from CDN -->
     <script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"
@@ -88,12 +88,6 @@
 
 <!-- Load Leaflet Label from GitHub -->
 <script src="https://leaflet.github.io/Leaflet.label/leaflet.label.js"></script>
-
-<!-- Include Leaflet.heat from CDN -->
-<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
-
-<!-- Load Heatmap Feature Layer from CDN -->
-<script src="https://cdn.jsdelivr.net/leaflet.esri.heatmap-feature-layer/2.0.0-beta.1/esri-leaflet-heatmap-feature-layer.js"></script>
 
 <!-- Load Esri Leaflet Renderers from CDN -->
 <script src="http://cdn.jsdelivr.net/leaflet.esri.renderers/2.0.2/esri-leaflet-renderers.js"></script>
@@ -110,11 +104,13 @@
 <div id="header"><h1>Unitopia</h1></div>
 <div id="map"></div>
 <div id="info">
-    <div id="info-content">
+    <div id="info-content" data-xy="">
         <h1>Parcel Info</h1>
         <p><b>Owner:</b> <span id="parcel-owner">Test text</span></p>
         <p><b>Land Use:</b> <span id="parcel-use">Test text</span></p>
         <p><b>Assessed Value:</b> <span id="parcel-value">Test text</span></p>
+        <button id="parcel-close" class="btn btn-primary">Close</button>
+        <button id="parcel-google-maps" class="btn btn-success">Open in Google Maps</button>
     </div>
 </div>
 
@@ -146,6 +142,8 @@
     let parcelMarker = null;
 
     webmap._map.on('click', (e) => {
+        $("#info").css({visibility: "visible"});
+
         console.log("CLICK EVENT", e);
 
         if (!clickMarker) {
@@ -197,7 +195,7 @@
                         const props = feature.properties;
                         $("#parcel-owner").text(props.OWNER + "; " + props.MAIL_ADDRESSEE);
                         $("#parcel-use").text(props.PTYPE_HUMAN);
-                        $("#parcel-value").text(props.AV_TOTAL);
+                        $("#parcel-value").text("$" + props.AV_TOTAL.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 
                         resolve(feature);
                     } else {
@@ -214,6 +212,7 @@
             const valid = result.filter((e) => e);
             if (valid.length > 0) {
                 console.log(valid);
+                $("#info-content").attr("data-xy", e.latlng.lat + "," + e.latlng.lng);
                 // if (parcelMarker) {
                 //     webmap._map.removeLayer(parcelMarker);
                 // }
@@ -229,6 +228,14 @@
                 $("#parcel-value").text("No data.");
             }
         })
+    });
+
+    $("#parcel-close").click(() => {
+        $("#info").css({visibility: "hidden"});
+    });
+
+    $("#parcel-google-maps").click(() => {
+        window.open("https://www.google.com/maps/@" + $("#info-content").attr("data-xy") + ",200m/data=!3m1!1e3");
     });
 
 </script>

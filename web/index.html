@@ -116,6 +116,10 @@
 
 <script>
 
+    function swapCoords(coords) {
+        return coords.map((c) => [c[1], c[0]])
+    }
+
     const webmapID = '6fda7e2ca6c440e59a20805c563faa60';
 
     let webmap = L.esri.webMap(webmapID, {
@@ -138,19 +142,11 @@
         }).addTo(webmap._map);
     });
 
-    let clickMarker = null;
     let parcelMarker = null;
-
     webmap._map.on('click', (e) => {
         $("#info").css({visibility: "visible"});
 
         console.log("CLICK EVENT", e);
-
-        if (!clickMarker) {
-            clickMarker = L.marker(e.latlng).addTo(webmap._map);
-        } else {
-            clickMarker.setLatLng(e.latlng);
-        }
 
         $("#parcel-owner").text("Loading...");
         $("#parcel-use").text("Loading...");
@@ -211,17 +207,18 @@
         Promise.all([cambridgeQuery, bostonQuery]).then((result) => {
             const valid = result.filter((e) => e);
             if (valid.length > 0) {
-                console.log(valid);
+                // console.log(valid);
                 $("#info-content").attr("data-xy", e.latlng.lat + "," + e.latlng.lng);
-                // if (parcelMarker) {
-                //     webmap._map.removeLayer(parcelMarker);
-                // }
-                //
-                // console.log(valid[0]);
-                // console.log(valid[0].geometry.coordinates);
-                // parcelMarker = L.polygon(valid[0].geometry.coordinates.map((e) => new L.latLng(e)), {color: 'red'});
-                // console.log(parcelMarker._latlngs);
-                // webmap._map.addLayer(parcelMarker);
+
+                if (parcelMarker) {
+                    webmap._map.removeLayer(parcelMarker);
+                }
+
+                parcelMarker = L.polygon(swapCoords(valid[0].geometry.coordinates[0]), {
+                    color: 'red',
+                    weight: 5
+                }).addTo(webmap._map);
+                webmap._map.addLayer(parcelMarker);
             } else {
                 $("#parcel-owner").text("No data.");
                 $("#parcel-use").text("No data.");

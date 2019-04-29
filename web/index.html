@@ -27,8 +27,9 @@
             padding: 16px;
             text-align: center;
             /*background-color: rgba(255, 255, 255, 0.5);*/
-            background-color: rgba(20, 20, 20, 0.5);
+            background-color: rgba(20, 20, 20, 0.7);
             color: white;
+            z-index: 1000;
         }
 
         #map {
@@ -37,18 +38,17 @@
             bottom: 0;
             left: 0;
             right: 0;
-            z-index: -1;
         }
 
         #info {
-            background-color: rgba(20, 20, 20, 0.8);
+            background-color: rgba(20, 20, 20, 0.7);
             position: absolute;
             top: 0;
             right: 0;
             bottom: 0;
             width: 25vw;
-
             display: flex;
+            z-index: 1000;
         }
 
         #info-content {
@@ -78,14 +78,6 @@
     <script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"
             integrity="sha512-tyPum7h2h36X52O2gz+Pe8z/3l+Y9S1yEUscbVs5r5aEY5dFmP1WWRY/WLLElnFHa+k1JBQZSCDGwEAnm2IxAQ=="
             crossorigin=""></script>
-
-    <!--    <script>-->
-    <!--        $(document).ready(() => {-->
-    <!--            const webmapID = "6fda7e2ca6c440e59a20805c563faa60";-->
-
-    <!--            -->
-    <!--        });-->
-    <!--    </script>-->
 </head>
 <body>
 
@@ -124,7 +116,6 @@
 <script>
 
     const webmapID = '6fda7e2ca6c440e59a20805c563faa60';
-    // const webmapID = "13750b8b548d48bfa99a9731f2a93ba0";
 
     let webmap = L.esri.webMap(webmapID, {
         map: L.map("map", {
@@ -140,25 +131,54 @@
         webmap.layers.map(function (l) {
             if (!l.title.includes("World")) overlayMaps[l.title] = l.layer;
 
-            console.log("LAYER");
-            console.log(l.layer.on('dbclick', (e) => {
-                console.log("AAAAA", e);
-                // console.log("BBBBB", e.target.identify());
-            }));
-            // l.layer.on('createfeature', (feature) => {
-            //     console.log("CREATE FEATURE");
-            //     console.log(feature);
-            // });
+            if (l.layer.eachLayer) {
+                l.layer.eachLayer((l) => {
+                    l.on('click', (e) => {
+                        const props = e.sourceTarget.feature.properties;
+                        if (props.ML) {
+                            $("#parcel-owner").text(props.Owner_s_);
+                            $("#parcel-use").text(props.Property_Class);
+                            $("#parcel-value").text(props.Assessed_Value);
+                        } else if (props.WPD) {
+                            $("#parcel-owner").text(props.OWNER);
+                            $("#parcel-use").text(props.PTYPE_HUMAN);
+                            $("#parcel-value").text(props.AV_TOTAL);
+                        }
+                    });
+                });
+            } else if (!l.title.includes("World")) {
+                console.log("TILE LAYER", l.layer);
+                webmap._map.on('click', (e) => {
+                    console.log("CLICK EVENT", e);
+
+                    L.esri.query({
+                        url: 'https://services1.arcgis.com/qN3V93cYGMKQCOxL/arcgis/rest/services/Cambridge_Land_Use_2019/FeatureServer/0',
+                    }).nearby(e.latlng, 0).run(function (error, featureCollection, response) {
+                        // console.log("ERR", error);
+                        // console.log("FEA", featureCollection);
+                        // console.log("RES", response)
+                        if (featureCollection.features.length > 0) {
+                            props = featureCollection.features[0].properties;
+                            if (props.ML) {
+                                $("#parcel-owner").text(props.Owner_s_);
+                                $("#parcel-use").text(props.Property_Class);
+                                $("#parcel-value").text(props.Assessed_Value);
+                            } else if (props.WPD) {
+                                $("#parcel-owner").text(props.OWNER);
+                                $("#parcel-use").text(props.PTYPE_HUMAN);
+                                $("#parcel-value").text(props.AV_TOTAL);
+                            }
+                        }
+                    });
+                });
+
+            }
         });
 
         L.control.layers({}, overlayMaps, {
             position: 'bottomleft'
         }).addTo(webmap._map);
     });
-
-    webmap.on('click', () => {
-        console.log("CLICK!");
-    })
 </script>
 
 </body>

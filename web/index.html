@@ -27,8 +27,8 @@
             padding: 16px;
             text-align: center;
             /*background-color: rgba(255, 255, 255, 0.5);*/
-            background-color: rgba(20, 20, 20, 0.7);
-            color: white;
+            background-color: rgba(255, 255, 255, 0.7);
+            color: #1359c9;
             z-index: 1000;
         }
 
@@ -45,22 +45,66 @@
         }
 
         #info {
-            visibility: hidden;
-            background-color: rgba(20, 20, 20, 0.7);
+            background-color: rgba(19, 89, 201, 0.7);
             position: absolute;
-            top: 0;
+            left: 0;
             right: 0;
             bottom: 0;
-            width: 25vw;
-            display: flex;
+            height: 30vh;
+            overflow: auto;
+            display: none;
             z-index: 1000;
         }
 
-        #info-content {
+        @media (min-width: 1000px) {
+            #info {
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: auto;
+                width: 25vw;
+                height: auto;
+                overflow: auto;
+            }
+        }
+
+        #info-container {
+            display: flex;
             width: 100%;
-            align-self: center;
-            padding: 24px;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        #info-body {
+            flex: 1;
+            width: 100%;
+            padding: 36px;
             color: white;
+        }
+
+        #parcel-info {
+            margin: 36px 0;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #parcel-info td {
+            padding: 8px;
+            border: 1px solid white;
+        }
+
+        #parcel-info .parcel-info-label {
+            font-weight: bold;
+        }
+
+        #parcel-info-container {
+            display: none;
+            margin-bottom: 16px;
+        }
+
+        #parcel-info-loading {
+            display: none;
+            margin: 36px auto;
         }
     </style>
 
@@ -101,16 +145,37 @@
 <!-- Load L.esri.WebMap -->
 <script src="https://cdn.jsdelivr.net/leaflet.esri.webmap/0.4.0/esri-leaflet-webmap.js"></script>
 
-<div id="header"><h1>Unitopia</h1></div>
+<div id="header">
+    <h1>Unitopia</h1>
+</div>
 <div id="map"></div>
 <div id="info">
-    <div id="info-content" data-xy="">
-        <h1>Parcel Info</h1>
-        <p><b>Owner:</b> <span id="parcel-owner">Test text</span></p>
-        <p><b>Land Use:</b> <span id="parcel-use">Test text</span></p>
-        <p><b>Assessed Value:</b> <span id="parcel-value">Test text</span></p>
-        <button id="parcel-close" class="btn btn-primary">Close</button>
-        <button id="parcel-google-maps" class="btn btn-success">Open in Google Maps</button>
+    <div id="info-container">
+        <div id="info-body" data-xy="">
+            <h1>Parcel Info</h1>
+            <hr style="border-color: white;"/>
+            <div id="parcel-info-container">
+                <table id="parcel-info">
+                    <tr>
+                        <td class="parcel-info-label">Owner</td>
+                        <td id="parcel-owner"></td>
+                    </tr>
+                    <tr>
+                        <td class="parcel-info-label">Land Use</td>
+                        <td id="parcel-use"></td>
+                    </tr>
+                    <tr>
+                        <td class="parcel-info-label">Assesed Value</td>
+                        <td id="parcel-value"></td>
+                    </tr>
+                </table>
+                <button id="parcel-google-maps" class="btn btn-success">Open in Google Maps</button>
+            </div>
+            <div id="parcel-info-loading" class="spinner-border text-light" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <button id="parcel-close" class="btn btn-primary">Close</button>
+        </div>
     </div>
 </div>
 
@@ -148,18 +213,17 @@
 
     let parcelMarker = null;
     webmap._map.on('click', (e) => {
-        $("#info").css({visibility: "visible"});
-
-        console.log("CLICK EVENT", e);
-
         $("#parcel-owner").text("Loading...");
         $("#parcel-use").text("Loading...");
         $("#parcel-value").text("Loading...");
+        $("#parcel-info-container").hide();
+        $("#parcel-info-loading").show();
+        $("#info").show();
 
         // Query Cambridge
         const cambridgeQuery = new Promise((resolve, reject) => {
             L.esri.query({
-                url: 'https://services1.arcgis.com/qN3V93cYGMKQCOxL/arcgis/rest/services/Cambridge_Land_Use_2019/FeatureServer/0',
+                url: 'https://services1.arcgis.com/qN3V93cYGMKQCOxL/arcgis/rest/services/Cambridge_Land_Use_2019_(LBCS)/FeatureServer/0',
             }).contains(e.latlng).run(function (error, featureCollection) {
                 console.log("Cambridge", featureCollection);
                 if (featureCollection) {
@@ -185,7 +249,7 @@
         // Query Boston
         const bostonQuery = new Promise((resolve, reject) => {
             L.esri.query({
-                url: 'https://services1.arcgis.com/qN3V93cYGMKQCOxL/arcgis/rest/services/Boston_Land_Use_2019/FeatureServer/0',
+                url: 'https://services1.arcgis.com/qN3V93cYGMKQCOxL/arcgis/rest/services/Boston_Land_Use_2019_(LBCS)/FeatureServer/0',
             }).contains(e.latlng).run(function (error, featureCollection) {
                 console.log("Boston", featureCollection);
                 if (featureCollection) {
@@ -209,14 +273,13 @@
         });
 
         Promise.all([cambridgeQuery, bostonQuery]).then((result) => {
+            if (parcelMarker) {
+                webmap._map.removeLayer(parcelMarker);
+            }
+
             const valid = result.filter((e) => e);
             if (valid.length > 0) {
-                // console.log(valid);
-                $("#info-content").attr("data-xy", e.latlng.lat + "," + e.latlng.lng);
-
-                if (parcelMarker) {
-                    webmap._map.removeLayer(parcelMarker);
-                }
+                $("#info-body").attr("data-xy", e.latlng.lat + "," + e.latlng.lng);
 
                 parcelMarker = L.polygon(swapCoords(valid[0].geometry.coordinates[0]), {
                     color: 'red',
@@ -228,15 +291,17 @@
                 $("#parcel-use").text("No data.");
                 $("#parcel-value").text("No data.");
             }
+            $("#parcel-info-loading").hide();
+            $("#parcel-info-container").show();
         })
     });
 
     $("#parcel-close").click(() => {
-        $("#info").css({visibility: "hidden"});
+        $("#info").hide();
     });
 
     $("#parcel-google-maps").click(() => {
-        window.open("https://www.google.com/maps/@" + $("#info-content").attr("data-xy") + ",200m/data=!3m1!1e3");
+        window.open("https://www.google.com/maps/@" + $("#info-body").attr("data-xy") + ",200m/data=!3m1!1e3");
     });
 
 </script>

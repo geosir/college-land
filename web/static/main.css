@@ -1,0 +1,156 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#read-button {
+    /*position: absolute;*/
+    /*top: 16px;*/
+    /*left: 16px;*/
+    /*z-index: 1000003;*/
+}
+
+#map-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+#story-box {
+    position: absolute;
+    background-color: white;
+    color: black;
+    z-index: 1000002;
+    padding: 16px;
+    text-align: justify;
+    display: flex;
+    flex-direction: column;
+
+    left: 0;
+    right: 0;
+    bottom: -50vh;
+    height: 50vh;
+}
+
+#story-header {
+    margin-bottom: 36px;
+    text-align: right;
+}
+
+#story-content {
+    overflow: auto;
+    flex: 1;
+    padding: 16px;
+}
+
+#map-header {
+    position: absolute;
+    width: 100%;
+    min-height: 100vh;
+    padding: 16px;
+    text-align: center;
+    background-color: white;
+    color: #1359c9;
+    z-index: 1000000;
+    opacity: 1;
+    display: flex;
+
+    -webkit-transition: background-color 0.5s, min-height 0.5s;
+    -moz-transition: background-color 0.5s, min-height 0.5s;
+    transition: background-color 0.5s, min-height 0.5s;
+}
+
+#menu-navbar {
+    display: none;
+}
+
+#map-header-title {
+    margin: 0 auto;
+    text-align: center;
+    align-self: center;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.leaflet-container, .leaflet-interactive {
+    cursor: crosshair;
+}
+
+#map-info {
+    background-color: rgba(19, 89, 201, 0.7);
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40vh;
+    overflow: auto;
+    display: none;
+    z-index: 1000004;
+}
+
+@media (min-width: 1000px) {
+    #map-info {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: auto;
+        width: 25vw;
+        height: auto;
+        overflow: auto;
+    }
+
+    #story-box {
+        top: 0;
+        left: -40vw;
+        bottom: 0;
+        width: 40vw;
+        height: 100%;
+    }
+}
+
+#map-info-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+
+#info-body {
+    flex: 1;
+    width: 100%;
+    padding: 36px;
+    color: white;
+}
+
+#parcel-info {
+    margin: 36px 0;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#parcel-info td {
+    padding: 8px;
+    border: 1px solid white;
+}
+
+#parcel-info .parcel-info-label {
+    font-weight: bold;
+}
+
+#parcel-info-container {
+    display: none;
+    margin-bottom: 16px;
+}
+
+#parcel-info-loading {
+    display: none;
+    margin: 36px auto;
+}

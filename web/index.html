@@ -11,144 +11,9 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
+    <link rel="stylesheet" href="static/main.css">
 
-
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        #header {
-            width: 100%;
-            min-height: 100vh;
-            padding: 16px;
-            text-align: center;
-            background-color: white;
-            color: #1359c9;
-            z-index: 1000000;
-            opacity: 1;
-            display: flex;
-
-            -webkit-transition: background-color 0.5s, min-height 0.5s;
-            -moz-transition: background-color 0.5s, min-height 0.5s;
-            transition: background-color 0.5s, min-height 0.5s;
-        }
-
-        #header-title {
-            margin: 0 auto;
-            text-align: center;
-            align-self: center;
-        }
-
-        #intro-button {
-        }
-
-        #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-
-        .leaflet-container, .leaflet-interactive {
-            cursor: crosshair;
-        }
-
-        #info {
-            background-color: rgba(19, 89, 201, 0.7);
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 40vh;
-            overflow: auto;
-            display: none;
-            z-index: 1000000;
-        }
-
-        @media (min-width: 1000px) {
-            #info {
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: auto;
-                width: 25vw;
-                height: auto;
-                overflow: auto;
-            }
-        }
-
-        #info-container {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            flex-direction: column;
-        }
-
-        #info-body {
-            flex: 1;
-            width: 100%;
-            padding: 36px;
-            color: white;
-        }
-
-        #parcel-info {
-            margin: 36px 0;
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        #parcel-info td {
-            padding: 8px;
-            border: 1px solid white;
-        }
-
-        #parcel-info .parcel-info-label {
-            font-weight: bold;
-        }
-
-        #parcel-info-container {
-            display: none;
-            margin-bottom: 16px;
-        }
-
-        #parcel-info-loading {
-            display: none;
-            margin: 36px auto;
-        }
-
-        #map-box {
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            text-align: center;
-        }
-
-        #story-box {
-            position: absolute;
-            top: 0;
-            left: -40vw;
-            bottom: 0;
-            width: 40vw;
-            background-color: white;
-            color: black;
-            z-index: 1000002;
-            padding: 36px;
-            text-align: justify;
-        }
-
-        #intro-button-box {
-
-        }
-    </style>
-
-
-    <script
-            src="https://code.jquery.com/jquery-3.4.0.min.js"
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
             integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -160,34 +25,44 @@
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
             integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
             crossorigin=""></script>
-
-    <!-- Load Esri Leaflet from CDN -->
     <script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"
             integrity="sha512-tyPum7h2h36X52O2gz+Pe8z/3l+Y9S1yEUscbVs5r5aEY5dFmP1WWRY/WLLElnFHa+k1JBQZSCDGwEAnm2IxAQ=="
             crossorigin=""></script>
 </head>
 <body>
-
-<!-- Load Leaflet Label from GitHub -->
-<script src="https://leaflet.github.io/Leaflet.label/leaflet.label.js"></script>
-
-<!-- Load Esri Leaflet Renderers from CDN -->
-<script src="http://cdn.jsdelivr.net/leaflet.esri.renderers/2.0.2/esri-leaflet-renderers.js"></script>
-
-<!-- Load Vector Icon from GitHub -->
-<script src="https://muxlab.github.io/Leaflet.VectorIcon/L.VectorIcon.js"></script>
-
-<!-- Load Leaflet Omnivore -->
-<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
-
-<!-- Load L.esri.WebMap -->
-<script src="https://cdn.jsdelivr.net/leaflet.esri.webmap/0.4.0/esri-leaflet-webmap.js"></script>
-
 <div id="map-box">
-    <div id="header">
-        <div style="flex: 1">
+    <div id="map-header">
+        <div id="menu-container" style="flex: 1; text-align: left; display: flex">
+            <nav id="menu-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!--<button id="read-button" class="btn btn-primary" style="align-self: center">Read</button>-->
         </div>
-        <div id="header-title">
+        <div id="map-header-title">
             <h1>Unitopia</h1>
             <div id="header-loading" class="spinner-border" role="status" currentColor="#1359c9"
                  style="margin-top: 16px">
@@ -196,11 +71,9 @@
         </div>
         <div style="flex: 1"></div>
     </div>
-    <button id="intro-button" class="btn btn-light" style="color: #1359c9; margin-top: -16px; opacity: 0;">Read Intro
-    </button>
     <div id="map"></div>
-    <div id="info">
-        <div id="info-container">
+    <div id="map-info">
+        <div id="map-info-container">
             <div id="info-body" data-xy="">
                 <h1>Parcel Info</h1>
                 <hr style="border-color: white;"/>
@@ -219,7 +92,8 @@
                             <td id="parcel-value"></td>
                         </tr>
                     </table>
-                    <button id="parcel-google-maps" class="btn btn-success">Open in Google Maps</button>
+                    <button id="parcel-raw-button" class="btn btn-warning">Show Raw</button>
+                    <button id="parcel-gmaps-button" class="btn btn-success">Open in Google Maps</button>
                 </div>
                 <div id="parcel-info-loading" class="spinner-border text-light" role="status">
                     <span class="sr-only">Loading...</span>
@@ -230,176 +104,60 @@
     </div>
 </div>
 <div id="story-box">
+    <div id="story-header">
+        <button id="story-close" class="btn btn-primary">Close</button>
+    </div>
     <div id="story-content">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dignissim aliquam eros vitae interdum. Proin
-        congue mollis odio non facilisis. Curabitur id mollis erat. Ut fermentum lorem pretium pharetra tincidunt. Nunc
-        magna odio, mattis quis purus efficitur, malesuada pretium arcu. Vestibulum vel commodo ex. Fusce ultrices mi ac
-        tellus tempor suscipit. Suspendisse vel volutpat lacus. Suspendisse vel condimentum leo. Etiam suscipit lacus
-        ligula, eu viverra sem feugiat ac. Fusce arcu mauris, consectetur quis tellus non, finibus consectetur metus.
-        Nullam aliquet, tellus sit amet tristique aliquam, nulla sem suscipit augue, mollis accumsan ligula purus nec
-        nulla. Donec maximus suscipit dolor, vel posuere erat hendrerit sed. Vivamus nec posuere metus. Duis pretium
-        posuere ultrices. Maecenas auctor libero quis mi cursus posuere.
-
-        Vestibulum lectus tellus, fringilla sed accumsan venenatis, varius vitae justo. Aliquam ac vehicula leo, id
-        viverra mauris. Nunc velit nisi, tempus eu pellentesque ut, tincidunt ornare ex. Donec eu hendrerit nisl.
-        Aliquam dignissim nisl odio, vel suscipit velit tempor in. Quisque aliquam dui neque, egestas gravida enim
-        imperdiet quis. Nullam nec arcu et nunc varius mattis id vitae tortor. Donec tortor augue, volutpat quis odio
-        consectetur, ultricies venenatis purus. Nulla luctus nunc risus, in tempor lectus luctus ac. Donec orci eros,
-        varius eget nisl sed, fermentum mattis justo. Vivamus ut erat non felis dictum facilisis. Donec tempus est leo,
-        a rhoncus justo egestas nec. Sed sem velit, suscipit vitae pretium quis, congue eu enim. Aenean vel dignissim
-        mi.
-
-        Praesent iaculis gravida malesuada. Cras a elit consectetur, pulvinar nunc vitae, fermentum neque. Aenean
-        iaculis tincidunt nisl, sit amet iaculis ante vulputate sollicitudin. Ut vehicula semper sapien, vitae ornare
-        eros fermentum eu. Phasellus laoreet libero vel imperdiet aliquet. Praesent euismod est dui, quis aliquet dui
-        efficitur ac. Nunc pretium scelerisque ullamcorper. Proin vitae fermentum nulla. Praesent bibendum malesuada
-        neque in commodo. Sed pellentesque libero vel nulla scelerisque consequat. Aenean semper odio enim, quis rutrum
-        diam mattis vitae.
+        <h1>Welcome to Unitopia.</h1>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dignissim aliquam eros vitae interdum. Proin
+            congue mollis odio non facilisis. Curabitur id mollis erat. Ut fermentum lorem pretium pharetra tincidunt.
+            Nunc
+            magna odio, mattis quis purus efficitur, malesuada pretium arcu. Vestibulum vel commodo ex. Fusce ultrices
+            mi ac
+            tellus tempor suscipit. Suspendisse vel volutpat lacus. Suspendisse vel condimentum leo. Etiam suscipit
+            lacus
+            ligula, eu viverra sem feugiat ac. Fusce arcu mauris, consectetur quis tellus non, finibus consectetur
+            metus.
+            Nullam aliquet, tellus sit amet tristique aliquam, nulla sem suscipit augue, mollis accumsan ligula purus
+            nec
+            nulla. Donec maximus suscipit dolor, vel posuere erat hendrerit sed. Vivamus nec posuere metus. Duis pretium
+            posuere ultrices. Maecenas auctor libero quis mi cursus posuere.
+        </p>
+        <p>
+            Vestibulum lectus tellus, fringilla sed accumsan venenatis, varius vitae justo. Aliquam ac vehicula leo, id
+            viverra mauris. Nunc velit nisi, tempus eu pellentesque ut, tincidunt ornare ex. Donec eu hendrerit nisl.
+            Aliquam dignissim nisl odio, vel suscipit velit tempor in. Quisque aliquam dui neque, egestas gravida enim
+            imperdiet quis. Nullam nec arcu et nunc varius mattis id vitae tortor. Donec tortor augue, volutpat quis
+            odio
+            consectetur, ultricies venenatis purus. Nulla luctus nunc risus, in tempor lectus luctus ac. Donec orci
+            eros,
+            varius eget nisl sed, fermentum mattis justo. Vivamus ut erat non felis dictum facilisis. Donec tempus est
+            leo,
+            a rhoncus justo egestas nec. Sed sem velit, suscipit vitae pretium quis, congue eu enim. Aenean vel
+            dignissim
+            mi.
+        </p>
+        <p>
+            Praesent iaculis gravida malesuada. Cras a elit consectetur, pulvinar nunc vitae, fermentum neque. Aenean
+            iaculis tincidunt nisl, sit amet iaculis ante vulputate sollicitudin. Ut vehicula semper sapien, vitae
+            ornare
+            eros fermentum eu. Phasellus laoreet libero vel imperdiet aliquet. Praesent euismod est dui, quis aliquet
+            dui
+            efficitur ac. Nunc pretium scelerisque ullamcorper. Proin vitae fermentum nulla. Praesent bibendum malesuada
+            neque in commodo. Sed pellentesque libero vel nulla scelerisque consequat. Aenean semper odio enim, quis
+            rutrum
+            diam mattis vitae.
+        </p>
     </div>
 </div>
 
-<script>
-
-    function swapCoords(coords) {
-        return coords.map((c) => [c[1], c[0]])
-    }
-
-    const webmapID = '6fda7e2ca6c440e59a20805c563faa60';
-
-    let webmap = L.esri.webMap(webmapID, {
-        map: L.map("map", {
-            zoomControl: false,
-            maxNativeZoom: 16,
-            minZoom: 12,
-            maxZoom: 18
-        })
-    });
-
-    webmap.on('load', function () {
-        let overlayMaps = {};
-
-        webmap.layers.map(function (l) {
-            if (!l.title.includes("World")) overlayMaps[l.title] = l.layer;
-            if (l.title.includes("World")) {
-                l.layer.options.maxNativeZoom = 16;
-            }
-        });
-
-        L.control.layers({}, overlayMaps, {
-            position: 'bottomleft'
-        }).addTo(webmap._map);
-
-        setTimeout(() => {
-            $("#header-loading").hide(100);
-            $("#header").css({
-                backgroundColor: "rgba(255, 255, 255, 0.7)",
-                minHeight: 0
-            });
-            setTimeout(() => {
-                $("#intro-button").animate({marginTop: 16, opacity: 1});
-            }, 1000)
-        }, 500);
-    });
-
-    let parcelMarker = null;
-    webmap._map.on('click', (e) => {
-        $("#parcel-owner").text("Loading...");
-        $("#parcel-use").text("Loading...");
-        $("#parcel-value").text("Loading...");
-        $("#parcel-info-container").hide();
-        $("#parcel-info-loading").show();
-        $("#info").show();
-
-        // Query Cambridge
-        const cambridgeQuery = new Promise((resolve, reject) => {
-            L.esri.query({
-                url: 'https://services1.arcgis.com/qN3V93cYGMKQCOxL/arcgis/rest/services/Cambridge_Land_Use_2019_(LBCS)/FeatureServer/0',
-            }).contains(e.latlng).run(function (error, featureCollection) {
-                console.log("Cambridge", featureCollection);
-                if (featureCollection) {
-                    const features = featureCollection.features.filter((f) => f.geometry);
-                    if (features.length > 0) {
-                        const feature = features[0];
-                        const props = feature.properties;
-                        $("#parcel-owner").text(props.Owner_s_);
-                        $("#parcel-use").text(props.Property_Class);
-                        $("#parcel-value").text(props.Assessed_Value);
-
-                        resolve(feature);
-                    } else {
-                        resolve(0);
-                    }
-                } else {
-                    console.error("FEATURE QUERY ERROR (Cambridge 2019):", error);
-                    reject(error);
-                }
-            });
-        });
-
-        // Query Boston
-        const bostonQuery = new Promise((resolve, reject) => {
-            L.esri.query({
-                url: 'https://services1.arcgis.com/qN3V93cYGMKQCOxL/arcgis/rest/services/Boston_Land_Use_2019_(LBCS)/FeatureServer/0',
-            }).contains(e.latlng).run(function (error, featureCollection) {
-                console.log("Boston", featureCollection);
-                if (featureCollection) {
-                    const features = featureCollection.features.filter((f) => f.geometry);
-                    if (features.length > 0) {
-                        const feature = features[0];
-                        const props = feature.properties;
-                        $("#parcel-owner").text(props.OWNER + "; " + props.MAIL_ADDRESSEE);
-                        $("#parcel-use").text(props.PTYPE_HUMAN);
-                        $("#parcel-value").text("$" + props.AV_TOTAL.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-
-                        resolve(feature);
-                    } else {
-                        resolve(0);
-                    }
-                } else {
-                    console.error("FEATURE QUERY ERROR (Boston 2019):", error);
-                    reject(error);
-                }
-            });
-        });
-
-        Promise.all([cambridgeQuery, bostonQuery]).then((result) => {
-            if (parcelMarker) {
-                webmap._map.removeLayer(parcelMarker);
-            }
-
-            const valid = result.filter((e) => e);
-            if (valid.length > 0) {
-                $("#info-body").attr("data-xy", e.latlng.lat + "," + e.latlng.lng);
-
-                parcelMarker = L.polygon(swapCoords(valid[0].geometry.coordinates[0]), {
-                    color: 'red',
-                    weight: 5
-                }).addTo(webmap._map);
-                webmap._map.addLayer(parcelMarker);
-            } else {
-                $("#parcel-owner").text("No data.");
-                $("#parcel-use").text("No data.");
-                $("#parcel-value").text("No data.");
-            }
-            $("#parcel-info-loading").hide();
-            $("#parcel-info-container").show();
-        })
-    });
-
-    $("#parcel-close").click(() => {
-        $("#info").hide();
-    });
-
-    $("#parcel-google-maps").click(() => {
-        window.open("https://www.google.com/maps/@" + $("#info-body").attr("data-xy") + ",200m/data=!3m1!1e3");
-    });
-
-    $("#intro-button").click(() => {
-        $("#story-box").animate({left: 0});
-        $("#map-box").animate({left: "40vw"});
-    });
-
-</script>
+<script src="https://leaflet.github.io/Leaflet.label/leaflet.label.js"></script>
+<script src="http://cdn.jsdelivr.net/leaflet.esri.renderers/2.0.2/esri-leaflet-renderers.js"></script>
+<script src="https://muxlab.github.io/Leaflet.VectorIcon/L.VectorIcon.js"></script>
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+<script src="https://cdn.jsdelivr.net/leaflet.esri.webmap/0.4.0/esri-leaflet-webmap.js"></script>
+<script src="static/main.js"></script>
 
 </body>
 </html>

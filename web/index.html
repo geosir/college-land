@@ -20,16 +20,28 @@
         }
 
         #header {
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
+            width: 100%;
+            min-height: 100vh;
             padding: 16px;
             text-align: center;
-            /*background-color: rgba(255, 255, 255, 0.5);*/
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: white;
             color: #1359c9;
-            z-index: 1000;
+            z-index: 1000000;
+            opacity: 1;
+            display: flex;
+
+            -webkit-transition: background-color 0.5s, min-height 0.5s;
+            -moz-transition: background-color 0.5s, min-height 0.5s;
+            transition: background-color 0.5s, min-height 0.5s;
+        }
+
+        #header-title {
+            margin: 0 auto;
+            text-align: center;
+            align-self: center;
+        }
+
+        #intro-button {
         }
 
         #map {
@@ -50,10 +62,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            height: 30vh;
+            height: 40vh;
             overflow: auto;
             display: none;
-            z-index: 1000;
+            z-index: 1000000;
         }
 
         @media (min-width: 1000px) {
@@ -106,6 +118,32 @@
             display: none;
             margin: 36px auto;
         }
+
+        #map-box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        #story-box {
+            position: absolute;
+            top: 0;
+            left: -40vw;
+            bottom: 0;
+            width: 40vw;
+            background-color: white;
+            color: black;
+            z-index: 1000002;
+            padding: 36px;
+            text-align: justify;
+        }
+
+        #intro-button-box {
+
+        }
     </style>
 
 
@@ -145,37 +183,78 @@
 <!-- Load L.esri.WebMap -->
 <script src="https://cdn.jsdelivr.net/leaflet.esri.webmap/0.4.0/esri-leaflet-webmap.js"></script>
 
-<div id="header">
-    <h1>Unitopia</h1>
-</div>
-<div id="map"></div>
-<div id="info">
-    <div id="info-container">
-        <div id="info-body" data-xy="">
-            <h1>Parcel Info</h1>
-            <hr style="border-color: white;"/>
-            <div id="parcel-info-container">
-                <table id="parcel-info">
-                    <tr>
-                        <td class="parcel-info-label">Owner</td>
-                        <td id="parcel-owner"></td>
-                    </tr>
-                    <tr>
-                        <td class="parcel-info-label">Land Use</td>
-                        <td id="parcel-use"></td>
-                    </tr>
-                    <tr>
-                        <td class="parcel-info-label">Assesed Value</td>
-                        <td id="parcel-value"></td>
-                    </tr>
-                </table>
-                <button id="parcel-google-maps" class="btn btn-success">Open in Google Maps</button>
-            </div>
-            <div id="parcel-info-loading" class="spinner-border text-light" role="status">
+<div id="map-box">
+    <div id="header">
+        <div style="flex: 1">
+        </div>
+        <div id="header-title">
+            <h1>Unitopia</h1>
+            <div id="header-loading" class="spinner-border" role="status" currentColor="#1359c9"
+                 style="margin-top: 16px">
                 <span class="sr-only">Loading...</span>
             </div>
-            <button id="parcel-close" class="btn btn-primary">Close</button>
         </div>
+        <div style="flex: 1"></div>
+    </div>
+    <button id="intro-button" class="btn btn-light" style="color: #1359c9; margin-top: -16px; opacity: 0;">Read Intro
+    </button>
+    <div id="map"></div>
+    <div id="info">
+        <div id="info-container">
+            <div id="info-body" data-xy="">
+                <h1>Parcel Info</h1>
+                <hr style="border-color: white;"/>
+                <div id="parcel-info-container">
+                    <table id="parcel-info">
+                        <tr>
+                            <td class="parcel-info-label">Owner</td>
+                            <td id="parcel-owner"></td>
+                        </tr>
+                        <tr>
+                            <td class="parcel-info-label">Land Use</td>
+                            <td id="parcel-use"></td>
+                        </tr>
+                        <tr>
+                            <td class="parcel-info-label">Assesed Value</td>
+                            <td id="parcel-value"></td>
+                        </tr>
+                    </table>
+                    <button id="parcel-google-maps" class="btn btn-success">Open in Google Maps</button>
+                </div>
+                <div id="parcel-info-loading" class="spinner-border text-light" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <button id="parcel-close" class="btn btn-primary">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="story-box">
+    <div id="story-content">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dignissim aliquam eros vitae interdum. Proin
+        congue mollis odio non facilisis. Curabitur id mollis erat. Ut fermentum lorem pretium pharetra tincidunt. Nunc
+        magna odio, mattis quis purus efficitur, malesuada pretium arcu. Vestibulum vel commodo ex. Fusce ultrices mi ac
+        tellus tempor suscipit. Suspendisse vel volutpat lacus. Suspendisse vel condimentum leo. Etiam suscipit lacus
+        ligula, eu viverra sem feugiat ac. Fusce arcu mauris, consectetur quis tellus non, finibus consectetur metus.
+        Nullam aliquet, tellus sit amet tristique aliquam, nulla sem suscipit augue, mollis accumsan ligula purus nec
+        nulla. Donec maximus suscipit dolor, vel posuere erat hendrerit sed. Vivamus nec posuere metus. Duis pretium
+        posuere ultrices. Maecenas auctor libero quis mi cursus posuere.
+
+        Vestibulum lectus tellus, fringilla sed accumsan venenatis, varius vitae justo. Aliquam ac vehicula leo, id
+        viverra mauris. Nunc velit nisi, tempus eu pellentesque ut, tincidunt ornare ex. Donec eu hendrerit nisl.
+        Aliquam dignissim nisl odio, vel suscipit velit tempor in. Quisque aliquam dui neque, egestas gravida enim
+        imperdiet quis. Nullam nec arcu et nunc varius mattis id vitae tortor. Donec tortor augue, volutpat quis odio
+        consectetur, ultricies venenatis purus. Nulla luctus nunc risus, in tempor lectus luctus ac. Donec orci eros,
+        varius eget nisl sed, fermentum mattis justo. Vivamus ut erat non felis dictum facilisis. Donec tempus est leo,
+        a rhoncus justo egestas nec. Sed sem velit, suscipit vitae pretium quis, congue eu enim. Aenean vel dignissim
+        mi.
+
+        Praesent iaculis gravida malesuada. Cras a elit consectetur, pulvinar nunc vitae, fermentum neque. Aenean
+        iaculis tincidunt nisl, sit amet iaculis ante vulputate sollicitudin. Ut vehicula semper sapien, vitae ornare
+        eros fermentum eu. Phasellus laoreet libero vel imperdiet aliquet. Praesent euismod est dui, quis aliquet dui
+        efficitur ac. Nunc pretium scelerisque ullamcorper. Proin vitae fermentum nulla. Praesent bibendum malesuada
+        neque in commodo. Sed pellentesque libero vel nulla scelerisque consequat. Aenean semper odio enim, quis rutrum
+        diam mattis vitae.
     </div>
 </div>
 
@@ -209,6 +288,17 @@
         L.control.layers({}, overlayMaps, {
             position: 'bottomleft'
         }).addTo(webmap._map);
+
+        setTimeout(() => {
+            $("#header-loading").hide(100);
+            $("#header").css({
+                backgroundColor: "rgba(255, 255, 255, 0.7)",
+                minHeight: 0
+            });
+            setTimeout(() => {
+                $("#intro-button").animate({marginTop: 16, opacity: 1});
+            }, 1000)
+        }, 500);
     });
 
     let parcelMarker = null;
@@ -302,6 +392,11 @@
 
     $("#parcel-google-maps").click(() => {
         window.open("https://www.google.com/maps/@" + $("#info-body").attr("data-xy") + ",200m/data=!3m1!1e3");
+    });
+
+    $("#intro-button").click(() => {
+        $("#story-box").animate({left: 0});
+        $("#map-box").animate({left: "40vw"});
     });
 
 </script>

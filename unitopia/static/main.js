@@ -182,40 +182,40 @@ function closeStoryPane() {
 $("#story-close").click(closeStoryPane);
 
 const pages = {
-    "/p/welcome": {
+    "/welcome": {
         type: "page",
         name: "Welcome",
-        href: "/p/welcome/welcome.html"
+        href: "/pages/welcome.html"
     },
-    "/p/homes": {
+    "/homes": {
         type: "page",
         name: "Homes and Harvard",
-        href: "/p/homes/homes.html"
+        href: "/pages/homes.html"
     },
-    "/p/allston": {
+    "/allston": {
         type: "page",
         name: "All-in Allston",
-        href: "/p/allston/allston.html"
+        href: "/pages/allston.html"
     },
-    "/p/tech": {
+    "/tech": {
         type: "page",
         name: "Big Tech Complex",
-        href: "/p/tech/tech.html"
+        href: "/pages/tech.html"
     },
-    "/p/conclusions": {
+    "/conclusions": {
         type: "page",
         name: "Conclusions",
-        href: "/p/conclusions/conclusions.html"
+        href: "/pages/conclusions.html"
     },
-    "/p/methods": {
+    "/methods": {
         type: "page",
         name: "Methods and References",
-        href: "/p/methods/methods.html"
+        href: "/pages/methods.html"
     },
-    "/p/about": {
+    "/about": {
         type: "page",
         name: "About Unitopia",
-        href: "/p/about/about.html"
+        href: "/pages/about.html"
     }
 };
 
@@ -226,7 +226,7 @@ function handlePath() {
     if (hasp) path = searchParams.get("p");
     path = path.replace(rootPath, "").trim();
     if (path[path.length - 1] === "/") path = path.substr(0, path.length - 1);
-    if (path === "/" || path === "") openPath("/p/welcome", hasp);
+    if (path === "/" || path === "") openPath("/welcome", hasp);
     else openPath(path, hasp);
 }
 

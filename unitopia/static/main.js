@@ -258,6 +258,7 @@ function openPath(path, replace = false) {
 }
 
 $(".nav-link").click(function () {
+    $('.navbar-collapse').collapse('hide');
     openPath($(this).attr("data-target"));
 });
 

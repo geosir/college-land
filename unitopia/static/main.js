@@ -182,43 +182,52 @@ function closeStoryPane() {
 $("#story-close").click(closeStoryPane);
 
 const pages = {
-    "/read/welcome": {
+    "/p/welcome": {
+        type: "page",
         name: "Welcome",
-        href: "/pages/welcome.html"
+        href: "/p/welcome/welcome.html"
     },
-    "/read/homes": {
+    "/p/homes": {
+        type: "page",
         name: "Homes and Harvard",
-        href: "/pages/homes.html"
+        href: "/p/homes/homes.html"
     },
-    "/read/allston": {
+    "/p/allston": {
+        type: "page",
         name: "All-in Allston",
-        href: "/pages/allston.html"
+        href: "/p/allston/allston.html"
     },
-    "/read/tech": {
+    "/p/tech": {
+        type: "page",
         name: "Big Tech Complex",
-        href: "/pages/tech.html"
+        href: "/p/tech/tech.html"
     },
-    "/read/conclusions": {
+    "/p/conclusions": {
+        type: "page",
         name: "Conclusions",
-        href: "/pages/conclusions.html"
+        href: "/p/conclusions/conclusions.html"
     },
-    "/read/methods": {
+    "/p/methods": {
+        type: "page",
         name: "Methods and References",
-        href: "/pages/methods.html"
+        href: "/p/methods/methods.html"
     },
-    "/about": {
+    "/p/about": {
+        type: "page",
         name: "About Unitopia",
-        href: "/pages/about.html"
+        href: "/p/about/about.html"
     }
 };
 
 function handlePath() {
     let path = window.location.pathname;
     let searchParams = new URLSearchParams(window.location.search);
-    if (searchParams.get("p")) path = searchParams.get("p");
+    const hasp = Boolean(searchParams.get("p"));
+    if (hasp) path = searchParams.get("p");
     path = path.replace(rootPath, "").trim();
-    if (path === "/" || path === "") openPath("/read/welcome");
-    else openPath(path);
+    if (path[path.length - 1] === "/") path = path.substr(0, path.length - 1);
+    if (path === "/" || path === "") openPath("/p/welcome", hasp);
+    else openPath(path, hasp);
 }
 
 function focus(path, replace = false) {
@@ -227,7 +236,7 @@ function focus(path, replace = false) {
     else window.history.pushState({name: pages[path].name, type: "page"}, pages[path].name, rootPath + path);
 }
 
-function openPath(path) {
+function openPath(path, replace = false) {
     console.log("Open:", path);
     if (!pages[path]) return false;
     $("#story-content").hide();
@@ -244,7 +253,7 @@ function openPath(path) {
         if (!$("#story-box").attr("open")) {
             openStoryPane();
         }
-        focus(path);
+        focus(path, replace);
     });
 }
 

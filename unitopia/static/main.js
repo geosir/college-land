@@ -1,3 +1,5 @@
+const rootPath = "/unitopia";
+
 function swapCoords(coords) {
     return coords.map((c) => [c[1], c[0]])
 }
@@ -31,13 +33,12 @@ webmap.on('load', function () {
         $("#header-loading").hide(100);
         $("#map-header").css({
             backgroundColor: "rgba(255, 255, 255, 0.7)",
-            minHeight: 0
+            minHeight: "10vh"
         });
 
-        // DEBUG
         setTimeout(() => {
             $("#menu-navbar").show();
-            openStoryPane();
+            handlePath(window.location.pathname);
         }, 1000)
     }, 500);
 });
@@ -50,7 +51,7 @@ webmap._map.on('click', (e) => {
     $("#parcel-value").text("Loading...");
     $("#parcel-info-container").hide();
     $("#parcel-info-loading").show();
-    $("#map-info").show();
+    openInfoPane();
 
     // Query Cambridge
     const cambridgeQuery = new Promise((resolve, reject) => {
@@ -131,7 +132,7 @@ webmap._map.on('click', (e) => {
 
 // Handle parcel panel close
 $("#parcel-close").click(() => {
-    $("#map-info").hide();
+    closeInfoPane();
 });
 
 // Generate link to Google Maps
@@ -139,25 +140,118 @@ $("#parcel-google-maps").click(() => {
     window.open("https://www.google.com/maps/@" + $("#info-body").attr("data-xy") + ",200m/data=!3m1!1e3");
 });
 
+function openInfoPane() {
+    if ($(window).width() >= 1000) {
+        $("#map-info").animate({right: 0});
+    } else {
+        $("#map-info").animate({bottom: 0});
+    }
+}
+
+function closeInfoPane() {
+    if ($(window).width() >= 1000) {
+        $("#map-info").animate({right: "-25vw"});
+    } else {
+        $("#map-info").animate({bottom: "-40vh"});
+    }
+}
+
 function openStoryPane() {
     if ($(window).width() >= 1000) {
         $("#story-box").animate({left: 0});
-        $("#map-box").animate({left: "40vw"});
+        $("#map-box").animate({left: "33vw"});
     } else {
         $("#story-box").animate({bottom: 0});
         $("#map-box").animate({bottm: "50vh"});
     }
+    $("#story-box").attr("open", true)
 }
 
 function closeStoryPane() {
     if ($(window).width() >= 1000) {
-        $("#story-box").animate({left: "-40vw"});
+        $("#story-box").animate({left: "-33vw"});
         $("#map-box").animate({left: 0});
     } else {
         $("#story-box").animate({bottom: "-50vh"});
         $("#map-box").animate({bottm: 0});
     }
+    $("#story-box").removeAttr("open")
 }
 
-
+// Close story pane
 $("#story-close").click(closeStoryPane);
+
+const pages = {
+    "/read/welcome": {
+        name: "Welcome",
+        href: "/pages/welcome.html"
+    },
+    "/read/homes": {
+        name: "Homes and Harvard",
+        href: "/pages/homes.html"
+    },
+    "/read/allston": {
+        name: "All-in Allston",
+        href: "/pages/allston.html"
+    },
+    "/read/tech": {
+        name: "Big Tech Complex",
+        href: "/pages/tech.html"
+    },
+    "/read/conclusions": {
+        name: "Conclusions",
+        href: "/pages/conclusions.html"
+    },
+    "/read/methods": {
+        name: "Methods and References",
+        href: "/pages/methods.html"
+    },
+    "/about": {
+        name: "About Unitopia",
+        href: "/pages/about.html"
+    }
+};
+
+function handlePath() {
+    let path = window.location.pathname;
+    let searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get("p")) path = searchParams.get("p");
+    path = path.replace(rootPath, "").trim();
+    if (path === "/" || path === "") openPath("/read/welcome");
+    else openPath(path);
+}
+
+function focus(path, replace = false) {
+    if (!pages[path]) return false;
+    if (replace) window.history.replaceState({name: pages[path].name, type: "page"}, pages[path].name, rootPath + path);
+    else window.history.pushState({name: pages[path].name, type: "page"}, pages[path].name, rootPath + path);
+}
+
+function openPath(path) {
+    console.log("Open:", path);
+    if (!pages[path]) return false;
+    $("#story-content").hide();
+    $("#story-loading").show();
+    $.get(pages[path].href, (response) => {
+        $("#story-loading").hide();
+        if (response.search("404POISON") > -1) {
+            $("#story-content").show();
+            return;
+        }
+
+        $("#story-content").html(response);
+        $("#story-content").show();
+        if (!$("#story-box").attr("open")) {
+            openStoryPane();
+        }
+        focus(path);
+    });
+}
+
+$(".nav-link").click(function () {
+    openPath($(this).attr("data-target"));
+});
+
+window.onpopstate = () => {
+    handlePath();
+};

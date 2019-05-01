@@ -1,13 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-}
-
-#read-button {
-    /*position: absolute;*/
-    /*top: 16px;*/
-    /*left: 16px;*/
-    /*z-index: 1000003;*/
+    overflow: hidden;
 }
 
 #map-box {
@@ -23,8 +17,6 @@ body {
     background-color: white;
     color: black;
     z-index: 1000002;
-    padding: 16px;
-    text-align: justify;
     display: flex;
     flex-direction: column;
 
@@ -35,14 +27,27 @@ body {
 }
 
 #story-header {
-    margin-bottom: 36px;
     text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 10vh;
+    padding: 0 32px;
 }
 
 #story-content {
     overflow: auto;
     flex: 1;
-    padding: 16px;
+    padding: 32px;
+    padding-top: 0;
+}
+
+#story-content p {
+    text-align: justify;
+}
+
+#story-close {
+    align-self: flex-end;
 }
 
 #map-header {
@@ -70,6 +75,15 @@ body {
     margin: 0 auto;
     text-align: center;
     align-self: center;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                     supported by Chrome and Opera */
 }
 
 #map {
@@ -85,33 +99,33 @@ body {
 }
 
 #map-info {
-    background-color: rgba(19, 89, 201, 0.7);
+    background-color: rgba(19, 89, 201, 0.75);
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: -40vh;
     height: 40vh;
     overflow: auto;
-    display: none;
     z-index: 1000004;
 }
 
 @media (min-width: 1000px) {
     #map-info {
         top: 0;
-        right: 0;
+        right: -25vw;
         bottom: 0;
         left: auto;
         width: 25vw;
         height: auto;
         overflow: auto;
+
     }
 
     #story-box {
         top: 0;
-        left: -40vw;
+        left: -33vw;
         bottom: 0;
-        width: 40vw;
+        width: 33vw;
         height: 100%;
     }
 }
@@ -153,4 +167,17 @@ body {
 #parcel-info-loading {
     display: none;
     margin: 36px auto;
+}
+
+.nav-link {
+    cursor: pointer;
+}
+
+#navbarSupportedContent {
+    position: absolute;
+    width: 10vw;
+    min-width: 200px;
+    background: white;
+    padding: 16px;
+    margin-top: 16px;
 }

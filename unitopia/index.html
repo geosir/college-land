@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
-    <link rel="stylesheet" href="static/main.css">
+    <link rel="stylesheet" href="/unitopia/static/main.css">
 
     <script src="https://code.jquery.com/jquery-3.4.0.min.js"
             integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
@@ -33,7 +33,7 @@
 <div id="map-box">
     <div id="map-header">
         <div id="menu-container" style="flex: 1; text-align: left; display: flex">
-            <nav id="menu-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav id="menu-navbar" class="navbar  navbar-light">
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -42,20 +42,14 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
+                            <a class="nav-link" data-target="/read/welcome">Welcome</a>
+                            <a class="nav-link" data-target="/read/homes">Homes and Harvard</a>
+                            <a class="nav-link" data-target="/read/allston#">Arranging Allston</a>
+                            <a class="nav-link" data-target="/read/tech#">Big Tech Complex</a>
+                            <a class="nav-link" data-target="/read/conclusions#">Conclusions</a>
+                            <a class="nav-link" data-target="/read/methods#">Methods and References</a>
+                            <a class="nav-link" data-target="/about">About Unitopia</a>
                         </li>
                     </ul>
                 </div>
@@ -108,47 +102,6 @@
         <button id="story-close" class="btn btn-primary">Close</button>
     </div>
     <div id="story-content">
-        <h1>Welcome to Unitopia.</h1>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dignissim aliquam eros vitae interdum. Proin
-            congue mollis odio non facilisis. Curabitur id mollis erat. Ut fermentum lorem pretium pharetra tincidunt.
-            Nunc
-            magna odio, mattis quis purus efficitur, malesuada pretium arcu. Vestibulum vel commodo ex. Fusce ultrices
-            mi ac
-            tellus tempor suscipit. Suspendisse vel volutpat lacus. Suspendisse vel condimentum leo. Etiam suscipit
-            lacus
-            ligula, eu viverra sem feugiat ac. Fusce arcu mauris, consectetur quis tellus non, finibus consectetur
-            metus.
-            Nullam aliquet, tellus sit amet tristique aliquam, nulla sem suscipit augue, mollis accumsan ligula purus
-            nec
-            nulla. Donec maximus suscipit dolor, vel posuere erat hendrerit sed. Vivamus nec posuere metus. Duis pretium
-            posuere ultrices. Maecenas auctor libero quis mi cursus posuere.
-        </p>
-        <p>
-            Vestibulum lectus tellus, fringilla sed accumsan venenatis, varius vitae justo. Aliquam ac vehicula leo, id
-            viverra mauris. Nunc velit nisi, tempus eu pellentesque ut, tincidunt ornare ex. Donec eu hendrerit nisl.
-            Aliquam dignissim nisl odio, vel suscipit velit tempor in. Quisque aliquam dui neque, egestas gravida enim
-            imperdiet quis. Nullam nec arcu et nunc varius mattis id vitae tortor. Donec tortor augue, volutpat quis
-            odio
-            consectetur, ultricies venenatis purus. Nulla luctus nunc risus, in tempor lectus luctus ac. Donec orci
-            eros,
-            varius eget nisl sed, fermentum mattis justo. Vivamus ut erat non felis dictum facilisis. Donec tempus est
-            leo,
-            a rhoncus justo egestas nec. Sed sem velit, suscipit vitae pretium quis, congue eu enim. Aenean vel
-            dignissim
-            mi.
-        </p>
-        <p>
-            Praesent iaculis gravida malesuada. Cras a elit consectetur, pulvinar nunc vitae, fermentum neque. Aenean
-            iaculis tincidunt nisl, sit amet iaculis ante vulputate sollicitudin. Ut vehicula semper sapien, vitae
-            ornare
-            eros fermentum eu. Phasellus laoreet libero vel imperdiet aliquet. Praesent euismod est dui, quis aliquet
-            dui
-            efficitur ac. Nunc pretium scelerisque ullamcorper. Proin vitae fermentum nulla. Praesent bibendum malesuada
-            neque in commodo. Sed pellentesque libero vel nulla scelerisque consequat. Aenean semper odio enim, quis
-            rutrum
-            diam mattis vitae.
-        </p>
     </div>
 </div>
 
@@ -157,7 +110,7 @@
 <script src="https://muxlab.github.io/Leaflet.VectorIcon/L.VectorIcon.js"></script>
 <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
 <script src="https://cdn.jsdelivr.net/leaflet.esri.webmap/0.4.0/esri-leaflet-webmap.js"></script>
-<script src="static/main.js"></script>
+<script src="/unitopia/static/main.js"></script>
 
 </body>
 </html>

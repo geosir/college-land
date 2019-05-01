@@ -232,7 +232,7 @@ function openPath(path) {
     if (!pages[path]) return false;
     $("#story-content").hide();
     $("#story-loading").show();
-    $.get(pages[path].href, (response) => {
+    $.get(rootPath + pages[path].href, (response) => {
         $("#story-loading").hide();
         if (response.search("404POISON") > -1) {
             $("#story-content").show();

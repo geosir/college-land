@@ -46,6 +46,21 @@ body {
     text-align: justify;
 }
 
+.story-image {
+    width: 80%;
+    margin: 2em auto;
+}
+
+.story-image img {
+    width: 100%;
+}
+
+.story-image-caption {
+    color: #aaaaaa;
+    font-style: italic;
+    margin-top: 16px;
+}
+
 #story-close {
     align-self: flex-end;
 }

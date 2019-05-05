@@ -29,7 +29,6 @@
     <script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"
             integrity="sha512-tyPum7h2h36X52O2gz+Pe8z/3l+Y9S1yEUscbVs5r5aEY5dFmP1WWRY/WLLElnFHa+k1JBQZSCDGwEAnm2IxAQ=="
             crossorigin=""></script>
-    <script src="/unitopia/static/gallerize/gallerize.js"></script>
 </head>
 <body>
 <div id="map-box">
@@ -101,6 +100,8 @@
 </div>
 <div id="story-box">
     <div id="story-header">
+        <button id="story-shrink" class="btn btn-warning" style="display: none;">Shrink</button>
+        <button id="story-expand" class="btn btn-warning">Expand</button>
         <button id="story-close" class="btn btn-primary">Close</button>
     </div>
     <div id="story-content">
@@ -112,6 +113,7 @@
 <script src="https://muxlab.github.io/Leaflet.VectorIcon/L.VectorIcon.js"></script>
 <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
 <script src="https://cdn.jsdelivr.net/leaflet.esri.webmap/0.4.0/esri-leaflet-webmap.js"></script>
+<script src="/unitopia/static/gallerize/gallerize.js"></script>
 <script src="/unitopia/static/main.js"></script>
 
 </body>

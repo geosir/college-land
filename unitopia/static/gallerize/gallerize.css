@@ -17,7 +17,7 @@
     width: 100vw;
     background-color: #222;
     opacity: 0.8;
-    z-index: 100;
+    z-index: 10000000;
     display: none;
 
     cursor: -moz-zoom-out;
@@ -28,7 +28,7 @@
 #gallerize-frame {
     position: fixed;
     display: none;
-    z-index: 101;
+    z-index: 10000001;
 
     /*cursor: -moz-zoom-in;*/
     /*cursor: -webkit-zoom-in;*/

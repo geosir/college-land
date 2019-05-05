@@ -4,7 +4,6 @@
  */
 
 $(document).ready(function () {
-
     $("body").append("<div id='gallerize-cover'></div><img id='gallerize-frame'>");
 
     $(".gallerize").click(function () {
@@ -57,6 +56,7 @@ function closeGallerize() {
 
 function rebindGallerize() {
     var $images = $(".gallerize");
+
     $images.off("click");
     $images.click(function () {
         openGallerize($(this).attr("src"))

@@ -169,17 +169,45 @@ function openStoryPane() {
 
 function closeStoryPane() {
     if ($(window).width() >= 1000) {
-        $("#story-box").animate({left: "-33vw"});
+        $("#story-box").animate({width: "33vw", left: "-33vw"});
         $("#map-box").animate({left: 0});
     } else {
-        $("#story-box").animate({bottom: "-50vh"});
+        $("#story-box").animate({height: "50vh", bottom: "-50vh"});
         $("#map-box").animate({bottm: 0});
     }
     $("#story-box").removeAttr("open")
 }
 
+function expandStoryPane() {
+    if ($(window).width() >= 1000) {
+        $("#story-box").animate({width: "100vw"});
+    } else {
+        $("#story-box").animate({height: "100vh"});
+    }
+    $("#story-box").attr("expanded", true);
+    $("#story-shrink").show();
+    $("#story-expand").hide();
+}
+
+function shrinkStoryPane() {
+    if ($(window).width() >= 1000) {
+        $("#story-box").animate({width: "33vw"});
+    } else {
+        $("#story-box").animate({height: "50vh"});
+    }
+    $("#story-box").removeAttr("expanded");
+    $("#story-expand").show();
+    $("#story-shrink").hide();
+}
+
 // Close story pane
 $("#story-close").click(closeStoryPane);
+
+// Expand story pane
+$("#story-expand").click(expandStoryPane);
+
+// Shrink story pane
+$("#story-shrink").click(shrinkStoryPane);
 
 const pages = {
     "/welcome": {
@@ -249,6 +277,7 @@ function openPath(path, replace = false) {
         }
 
         $("#story-content").html(response);
+        if (rebindGallerize) rebindGallerize();
         $("#story-content").show();
         if (!$("#story-box").attr("open")) {
             openStoryPane();

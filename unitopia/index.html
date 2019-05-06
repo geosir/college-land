@@ -51,6 +51,7 @@
                             <a class="nav-link" data-target="/conclusions">Conclusions</a>
                             <a class="nav-link" data-target="/methods">Methods and References</a>
                             <a class="nav-link" data-target="/about">About Unitopia</a>
+                            <a class="nav-link" id="toggle-legend">Toggle Legend</a>
                         </li>
                     </ul>
                 </div>
@@ -67,6 +68,55 @@
         <div style="flex: 1"></div>
     </div>
     <div id="map"></div>
+    <div id="map-legend">
+        <h3>Land Ownership</h3>
+        <table>
+            <tr>
+                <td style="background-color: #FF0000; border: 3px solid black"></td>
+                <td>Harvard</td>
+            </tr>
+            <tr>
+                <td style="background-color: #00FF00; border: 3px solid black"></td>
+                <td>MIT</td>
+            </tr>
+        </table>
+        <hr/>
+        <h3>Land Use</h3>
+        <table>
+            <tr>
+                <td style="background-color: #FFFF00"></td>
+                <td>Residential</td>
+            </tr>
+            <tr>
+                <td style="background-color: #FF0000"></td>
+                <td>Commercial</td>
+            </tr>
+            <tr>
+                <td style="background-color: #A020F0"></td>
+                <td>Industrial</td>
+            </tr>
+            <tr>
+                <td style="background-color: #0000FF"></td>
+                <td>Institutional</td>
+            </tr>
+            <tr>
+                <td style="background-color: #BEBEBE"></td>
+                <td>Transportation</td>
+            </tr>
+            <tr>
+                <td style="background-color: #90EE90"></td>
+                <td>Recreation</td>
+            </tr>
+            <tr>
+                <td style="background-color: #55008B"></td>
+                <td>Mining</td>
+            </tr>
+            <tr>
+                <td style="background-color: #228B22"></td>
+                <td>Agriculture</td>
+            </tr>
+        </table>
+    </div>
     <div id="map-info">
         <div id="map-info-container">
             <div id="info-body" data-xy="">

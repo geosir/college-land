@@ -126,6 +126,33 @@ body {
     z-index: 1000004;
 }
 
+#map-legend {
+    display: none;
+    position: absolute;
+    right: 32px;
+    bottom: 32px;
+    max-height: 30vh;
+    max-width: 30vw;
+    z-index: 999999;
+    background: rgba(255, 255, 255, 0.75);
+    padding: 16px;
+    overflow: auto;
+    font-size: 0.9em;
+}
+
+#map-legend table {
+    border-collapse: separate;
+    border-spacing: 8px;
+}
+
+#map-legend td {
+    min-width: 25px;
+}
+
+#map-legend h3 {
+    font-size: 1em;
+}
+
 @media (min-width: 1000px) {
     #map-info {
         top: 0;
@@ -136,6 +163,10 @@ body {
         height: auto;
         overflow: auto;
 
+    }
+
+    #map-legend {
+        display: block;
     }
 
     #story-box {
@@ -186,7 +217,7 @@ body {
     margin: 36px auto;
 }
 
-.nav-link {
+.nav-link, .action-link {
     cursor: pointer;
 }
 

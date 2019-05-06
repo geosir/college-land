@@ -294,3 +294,12 @@ $(".nav-link").click(function () {
 window.onpopstate = () => {
     handlePath();
 };
+
+$("#toggle-legend").click(() => {
+    const $legend = $("#map-legend");
+    if ($legend.is(":visible")) {
+        $legend.hide();
+    } else {
+        $legend.show();
+    }
+});

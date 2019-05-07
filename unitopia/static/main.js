@@ -136,7 +136,7 @@ $("#parcel-close").click(() => {
 });
 
 // Generate link to Google Maps
-$("#parcel-google-maps").click(() => {
+$("#parcel-gmaps-button").click(() => {
     window.open("https://www.google.com/maps/@" + $("#info-body").attr("data-xy") + ",200m/data=!3m1!1e3");
 });
 
@@ -237,8 +237,13 @@ const pages = {
     },
     "/methods": {
         type: "page",
-        name: "Methods and References",
+        name: "Methods",
         href: "/pages/methods.html"
+    },
+    "/references": {
+        type: "page",
+        name: "References",
+        href: "/pages/references.html"
     },
     "/about": {
         type: "page",
@@ -300,6 +305,6 @@ $("#toggle-legend").click(() => {
     if ($legend.is(":visible")) {
         $legend.hide();
     } else {
-        $legend.show();
+        $legend.show()
     }
 });

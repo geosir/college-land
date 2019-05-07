@@ -28,26 +28,28 @@ $(document).ready(function () {
 
 function openGallerize(source) {
     $("#gallerize-cover").show();
-    var $frame = $("#gallerize-frame");
+    const $frame = $("#gallerize-frame");
     $frame.attr("src", source);
 
-    if ($frame.width() / $frame.height() > $(window).width() / $(window).height()) {
-        $frame.width($(window).width() * 0.8);
-        $frame.offset({
-            left: $(window).width() * 0.1, top: ($(window).height() - $frame.height()) / 2
-        });
-    } else {
-        $frame.height($(window).height() * 0.8);
-        $frame.offset({
-            left: ($(window).width() - $frame.width()) / 2, top: $(window).height() * 0.1
-        });
-    }
+    $frame.ready(() => {
+        if ($frame.width() / $frame.height() > $(window).width() / $(window).height()) {
+            $frame.width($(window).width() * 0.8);
+            $frame.offset({
+                left: $(window).width() * 0.1, top: ($(window).height() - $frame.height()) / 2
+            });
+        } else {
+            $frame.height($(window).height() * 0.8);
+            $frame.offset({
+                left: ($(window).width() - $frame.width()) / 2, top: $(window).height() * 0.1
+            });
+        }
 
-    $frame.show();
+        $frame.show();
+    });
 }
 
 function closeGallerize() {
-    var $frame = $("#gallerize-frame");
+    const $frame = $("#gallerize-frame");
     $frame.attr("src", "");
     $frame.removeAttr("style");
     $frame.hide();
@@ -55,7 +57,7 @@ function closeGallerize() {
 }
 
 function rebindGallerize() {
-    var $images = $(".gallerize");
+    const $images = $(".gallerize");
 
     $images.off("click");
     $images.click(function () {

@@ -28,18 +28,17 @@ body {
 
 #story-header {
     text-align: right;
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*justify-content: center;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     height: 10vh;
-    /*padding: 0 32px;*/
-    padding: 32px;
+    padding: 0 32px;
 }
 
 #story-content {
     overflow: auto;
     flex: 1;
-    padding: 32px;
+    padding: 64px 32px;
     padding-top: 0;
 }
 
@@ -62,10 +61,6 @@ body {
     font-style: italic;
     margin-top: 16px;
 }
-
-/*#story-close, #story-expand, #story-shrink {*/
-/*align-self: flex-end;*/
-/*}*/
 
 #map-header {
     position: absolute;

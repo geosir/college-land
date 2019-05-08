@@ -45,8 +45,14 @@ webmap.on('load', function () {
 
 // Handle parcel identification
 let parcelMarker = null;
+let clickMarker = null;
 webmap._map.on('click', (e) => {
     $("#clickinfo").text(e.latlng);
+
+    // Draw click location
+    if (clickMarker) webmap._map.removeLayer(clickMarker);
+    clickMarker = L.marker(e.latlng).addTo(webmap._map);
+
     $("#parcel-owner").text("Loading...");
     $("#parcel-use").text("Loading...");
     $("#parcel-value").text("Loading...");
@@ -160,10 +166,14 @@ function closeInfoPane() {
 function openStoryPane() {
     if ($(window).width() >= 1000) {
         $("#story-box").animate({left: 0});
-        $("#map-box").animate({left: "33vw"});
+        $("#map-box").animate({left: "33vw"}).promise().done(() => {
+            webmap._map.invalidateSize()
+        });
     } else {
         $("#story-box").animate({bottom: 0});
-        $("#map-box").animate({bottom: "50vh"});
+        $("#map-box").animate({bottom: "50vh"}).promise().done(() => {
+            webmap._map.invalidateSize()
+        });
     }
     $("#story-box").attr("open", true)
 }
@@ -171,10 +181,14 @@ function openStoryPane() {
 function closeStoryPane() {
     if ($(window).width() >= 1000) {
         $("#story-box").animate({width: "33vw", left: "-33vw"});
-        $("#map-box").animate({left: 0});
+        $("#map-box").animate({left: 0}).promise().done(() => {
+            webmap._map.invalidateSize()
+        });
     } else {
         $("#story-box").animate({height: "50vh", bottom: "-50vh"});
-        $("#map-box").animate({bottom: 0});
+        $("#map-box").animate({bottom: 0}).promise().done(() => {
+            webmap._map.invalidateSize()
+        });
     }
     $("#story-box").removeAttr("open")
 }

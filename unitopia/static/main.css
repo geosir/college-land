@@ -227,3 +227,19 @@ body {
     padding: 16px;
     margin-top: 16px;
 }
+
+.blockquote {
+    margin-left: 32px;
+    margin-right: 32px;
+    font-size: 0.95em;
+    line-height: 1em;
+}
+
+.story-link {
+    cursor: pointer;
+}
+
+.hangingindent {
+    padding-left: 32px;
+    text-indent: -32px;
+}

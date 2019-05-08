@@ -282,14 +282,17 @@ const pages = {
 };
 
 function handlePath() {
+    console.log("CURRENT URL:", window.location);
+
     let path = window.location.pathname;
     let searchParams = new URLSearchParams(window.location.search);
     const hasp = Boolean(searchParams.get("p"));
+    const hash = Boolean(window.location.hash);
     if (hasp) path = searchParams.get("p");
     path = path.replace(rootPath, "").trim();
     if (path[path.length - 1] === "/") path = path.substr(0, path.length - 1);
     if (path === "/" || path === "") openPath("/welcome", window.location.hash, hasp);
-    else openPath(path, window.location.hash, hasp);
+    else openPath(path, window.location.hash, hasp || hash);
 }
 
 function focus(path, hash = "", replace = false) {
@@ -298,7 +301,10 @@ function focus(path, hash = "", replace = false) {
         name: pages[path].name,
         type: "page"
     }, pages[path].name, rootPath + path + hash);
-    else window.history.pushState({name: pages[path].name, type: "page"}, pages[path].name, rootPath + path + hash);
+    else window.history.pushState({
+        name: pages[path].name,
+        type: "page"
+    }, pages[path].name + " " + hash, rootPath + path + hash);
     if (hash) window.location.hash = hash;
 }
 
@@ -316,7 +322,6 @@ function openPath(path, hash = "", replace = false) {
         }
         $("#story-content").html(response);
         $("#story-content").ready(() => {
-            console.log(pages[path].prev, pages[pages[path].prev]);
             if (pages[path].prev && pages[pages[path].prev]) {
                 $("#story-prev-name").text(pages[pages[path].prev].name);
                 $("#story-prev").attr("data-target", pages[path].prev);
@@ -334,6 +339,7 @@ function openPath(path, hash = "", replace = false) {
 
             if (rebindGallerize) rebindGallerize();
             rebindMapcenterButtons();
+            rebindStoryLinks();
             $("#story-content").show();
             if (!$("#story-box").attr("open")) {
                 openStoryPane();
@@ -352,9 +358,16 @@ function rebindMapcenterButtons() {
     });
 }
 
+function rebindStoryLinks() {
+    $(".story-link").off("click");
+    $(".story-link").click(function () {
+        openPath($(this).attr("data-target"), $(this).attr("data-hash") || "");
+    });
+}
+
 $(".nav-link").click(function () {
     $('.navbar-collapse').collapse('hide');
-    openPath($(this).attr("data-target"));
+    openPath($(this).attr("data-target"), $(this).attr("data-hash") || "");
 });
 
 window.onpopstate = () => {

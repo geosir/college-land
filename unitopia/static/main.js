@@ -243,20 +243,13 @@ const pages = {
         name: "Arranging Allston",
         href: "/pages/allston.html",
         prev: "/homes",
-        next: "/tech"
-    },
-    "/tech": {
-        type: "page",
-        name: "Big Tech Complex",
-        href: "/pages/tech.html",
-        prev: "/allston",
         next: "/conclusions"
     },
     "/conclusions": {
         type: "page",
         name: "Conclusions",
         href: "/pages/conclusions.html",
-        prev: "/tech",
+        prev: "/allston",
         next: "/methods"
     },
     "/methods": {

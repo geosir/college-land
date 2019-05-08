@@ -52,6 +52,7 @@
                             <a class="nav-link" data-target="/methods">Methods</a>
                             <a class="nav-link" data-target="/references">References</a>
                             <a class="nav-link" data-target="/about">About Unitopia</a>
+                            <div class="dropdown-divider"></div>
                             <a class="nav-link" id="toggle-legend">Toggle Legend</a>
                         </li>
                     </ul>
@@ -152,12 +153,25 @@
 <div id="story-box">
     <div id="story-header">
         <div id="story-header-buttons">
-            <button id="story-shrink" class="btn btn-warning" style="display: none;">Shrink</button>
-            <button id="story-expand" class="btn btn-warning">Expand</button>
-            <button id="story-close" class="btn btn-primary">Close</button>
+            <div style="display: inline-block">
+                <button id="story-shrink" class="btn btn-warning" style="display: none;">Shrink</button>
+                <button id="story-expand" class="btn btn-warning">Expand</button>
+                <button id="story-close" class="btn btn-primary">Close</button>
+            </div>
+            <div style="display: inline-block; float: left">
+                <button id="story-prev" class="btn btn-secondary" data-target="">
+                    &lt; <span id="story-prev-name"></span>
+                </button>
+            </div>
         </div>
     </div>
-    <div id="story-content">
+    <div id="story-content-container">
+        <div id="story-content"></div>
+        <div style="text-align: right; margin: 32px 0;">
+            <button id="story-next" class="btn btn-secondary" data-target="">
+                <span id="story-next-name"></span> &gt;
+            </button>
+        </div>
     </div>
 </div>
 

@@ -35,10 +35,10 @@ body {
     padding: 0 32px;
 }
 
-#story-content {
+#story-content-container {
     overflow: auto;
     flex: 1;
-    padding: 64px 32px;
+    padding: 32px;
     padding-top: 0;
 }
 

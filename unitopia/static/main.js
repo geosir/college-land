@@ -213,42 +213,56 @@ const pages = {
     "/welcome": {
         type: "page",
         name: "Welcome",
-        href: "/pages/welcome.html"
+        href: "/pages/welcome.html",
+        next: "/homes"
     },
     "/homes": {
         type: "page",
-        name: "Homes and Harvard",
-        href: "/pages/homes.html"
+        name: "Harvard and Home",
+        href: "/pages/homes.html",
+        prev: "/welcome",
+        next: "/allston"
     },
     "/allston": {
         type: "page",
-        name: "All-in Allston",
-        href: "/pages/allston.html"
+        name: "Arranging Allston",
+        href: "/pages/allston.html",
+        prev: "/homes",
+        next: "/tech"
     },
     "/tech": {
         type: "page",
         name: "Big Tech Complex",
-        href: "/pages/tech.html"
+        href: "/pages/tech.html",
+        prev: "/allston",
+        next: "/conclusions"
     },
     "/conclusions": {
         type: "page",
         name: "Conclusions",
-        href: "/pages/conclusions.html"
+        href: "/pages/conclusions.html",
+        prev: "/tech",
+        next: "/methods"
     },
     "/methods": {
         type: "page",
         name: "Methods",
-        href: "/pages/methods.html"
+        href: "/pages/methods.html",
+        prev: "/conclusions",
+        next: "/references"
     },
     "/references": {
         type: "page",
         name: "References",
-        href: "/pages/references.html"
+        href: "/pages/references.html",
+        prev: "/methods",
+        next: "/about"
     },
     "/about": {
         type: "page",
         name: "About Unitopia",
-        href: "/pages/about.html"
+        href: "/pages/about.html",
+        prev: "/references",
     }
 };
 
@@ -274,6 +288,7 @@ function openPath(path, replace = false) {
     if (!pages[path]) return false;
     $("#story-content").hide();
     $("#story-loading").show();
+    console.log("Query:", rootPath + pages[path].href);
     $.get(rootPath + pages[path].href, (response) => {
         $("#story-loading").hide();
         if (response.search("404POISON") > -1) {
@@ -281,7 +296,25 @@ function openPath(path, replace = false) {
             return;
         }
 
+        // console.log(response);
+
         $("#story-content").html(response);
+        console.log(pages[path].prev, pages[pages[path].prev]);
+        if (pages[path].prev && pages[pages[path].prev]) {
+            $("#story-prev-name").text(pages[pages[path].prev].name);
+            $("#story-prev").attr("data-target", pages[path].prev);
+            $("#story-prev").show();
+        } else {
+            $("#story-prev").hide();
+        }
+        if (pages[path].next && pages[pages[path].next]) {
+            $("#story-next-name").text(pages[pages[path].next].name);
+            $("#story-next").attr("data-target", pages[path].next);
+            $("#story-next").show();
+        } else {
+            $("#story-next").hide();
+        }
+
         if (rebindGallerize) rebindGallerize();
         $("#story-content").show();
         if (!$("#story-box").attr("open")) {
@@ -307,4 +340,9 @@ $("#toggle-legend").click(() => {
     } else {
         $legend.show()
     }
+});
+
+$("#story-prev, #story-next").click(function () {
+    const target = $(this).attr("data-target");
+    if (target) openPath(target);
 });

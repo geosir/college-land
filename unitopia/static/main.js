@@ -273,17 +273,21 @@ function handlePath() {
     if (hasp) path = searchParams.get("p");
     path = path.replace(rootPath, "").trim();
     if (path[path.length - 1] === "/") path = path.substr(0, path.length - 1);
-    if (path === "/" || path === "") openPath("/welcome", hasp);
-    else openPath(path, hasp);
+    if (path === "/" || path === "") openPath("/welcome", window.location.hash, hasp);
+    else openPath(path, window.location.hash, hasp);
 }
 
-function focus(path, replace = false) {
+function focus(path, hash = "", replace = false) {
     if (!pages[path]) return false;
-    if (replace) window.history.replaceState({name: pages[path].name, type: "page"}, pages[path].name, rootPath + path);
-    else window.history.pushState({name: pages[path].name, type: "page"}, pages[path].name, rootPath + path);
+    if (replace) window.history.replaceState({
+        name: pages[path].name,
+        type: "page"
+    }, pages[path].name, rootPath + path + hash);
+    else window.history.pushState({name: pages[path].name, type: "page"}, pages[path].name, rootPath + path + hash);
+    if (hash) window.location.hash = hash;
 }
 
-function openPath(path, replace = false) {
+function openPath(path, hash = "", replace = false) {
     console.log("Open:", path);
     if (!pages[path]) return false;
     $("#story-content").hide();
@@ -295,32 +299,31 @@ function openPath(path, replace = false) {
             $("#story-content").show();
             return;
         }
-
-        // console.log(response);
-
         $("#story-content").html(response);
-        console.log(pages[path].prev, pages[pages[path].prev]);
-        if (pages[path].prev && pages[pages[path].prev]) {
-            $("#story-prev-name").text(pages[pages[path].prev].name);
-            $("#story-prev").attr("data-target", pages[path].prev);
-            $("#story-prev").show();
-        } else {
-            $("#story-prev").hide();
-        }
-        if (pages[path].next && pages[pages[path].next]) {
-            $("#story-next-name").text(pages[pages[path].next].name);
-            $("#story-next").attr("data-target", pages[path].next);
-            $("#story-next").show();
-        } else {
-            $("#story-next").hide();
-        }
+        $("#story-content").ready(() => {
+            console.log(pages[path].prev, pages[pages[path].prev]);
+            if (pages[path].prev && pages[pages[path].prev]) {
+                $("#story-prev-name").text(pages[pages[path].prev].name);
+                $("#story-prev").attr("data-target", pages[path].prev);
+                $("#story-prev").show();
+            } else {
+                $("#story-prev").hide();
+            }
+            if (pages[path].next && pages[pages[path].next]) {
+                $("#story-next-name").text(pages[pages[path].next].name);
+                $("#story-next").attr("data-target", pages[path].next);
+                $("#story-next").show();
+            } else {
+                $("#story-next").hide();
+            }
 
-        if (rebindGallerize) rebindGallerize();
-        $("#story-content").show();
-        if (!$("#story-box").attr("open")) {
-            openStoryPane();
-        }
-        focus(path, replace);
+            if (rebindGallerize) rebindGallerize();
+            $("#story-content").show();
+            if (!$("#story-box").attr("open")) {
+                openStoryPane();
+            }
+            focus(path, hash, replace);
+        });
     });
 }
 

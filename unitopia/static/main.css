@@ -46,6 +46,11 @@ body {
     text-align: justify;
 }
 
+#story-content h2 a, #story-content h1 a {
+    color: black;
+    font-style: normal;
+}
+
 .story-image {
     width: 90%;
     max-width: 50vw;

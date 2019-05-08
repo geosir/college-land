@@ -137,7 +137,7 @@ $("#parcel-close").click(() => {
 
 // Generate link to Google Maps
 $("#parcel-gmaps-button").click(() => {
-    window.open("https://www.google.com/maps/@" + $("#info-body").attr("data-xy") + ",200m/data=!3m1!1e3");
+    window.open("https://www.google.com/maps/place/" + $("#info-body").attr("data-xy") + "/@" + $("#info-body").attr("data-xy") + ",200m/data=!3m1!1e3");
 });
 
 function openInfoPane() {
@@ -349,3 +349,11 @@ $("#story-prev, #story-next").click(function () {
     const target = $(this).attr("data-target");
     if (target) openPath(target);
 });
+
+// function rebindMapcenterButtons() {
+//     $(".story-mapcenter-button").off("click");
+//     $(".story-mapcenter-button").click(function () {
+//        const xy = $(this).attr("data-xy").split(",");
+//        webmap._map.flyto
+//     });
+// }

@@ -190,18 +190,18 @@ body {
     color: white;
 }
 
-#parcel-info {
+#parcel-info, #raw-parcel-info {
     margin: 36px 0;
     width: 100%;
     border-collapse: collapse;
 }
 
-#parcel-info td {
+#parcel-info td, #raw-parcel-info td {
     padding: 8px;
     border: 1px solid white;
 }
 
-#parcel-info .parcel-info-label {
+#parcel-info .parcel-info-label, #raw-parcel-info .parcel-info-label {
     font-weight: bold;
 }
 

@@ -46,6 +46,7 @@ webmap.on('load', function () {
 // Handle parcel identification
 let parcelMarker = null;
 let clickMarker = null;
+let showRaw = false;
 webmap._map.on('click', (e) => {
     $("#clickinfo").text(e.latlng);
 
@@ -56,6 +57,8 @@ webmap._map.on('click', (e) => {
     $("#parcel-owner").text("Loading...");
     $("#parcel-use").text("Loading...");
     $("#parcel-value").text("Loading...");
+    $("#raw-parcel-info").hide();
+    $("#raw-parcel-info").html("");
     $("#parcel-info-container").hide();
     $("#parcel-info-loading").show();
     openInfoPane();
@@ -74,6 +77,10 @@ webmap._map.on('click', (e) => {
                     $("#parcel-owner").text(props.Owner_s_);
                     $("#parcel-use").text(props.Property_Class);
                     $("#parcel-value").text(props.Assessed_Value);
+
+                    for (const [key, value] of Object.entries(props)) {
+                        $("#raw-parcel-info").append(`<tr><td class="parcel-info-label">${key}</td><td>${value}</td></tr>`);
+                    }
 
                     resolve(feature);
                 } else {
@@ -100,6 +107,10 @@ webmap._map.on('click', (e) => {
                     $("#parcel-owner").text(props.OWNER + "; " + props.MAIL_ADDRESSEE);
                     $("#parcel-use").text(props.PTYPE_HUMAN);
                     $("#parcel-value").text("$" + props.AV_TOTAL.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+                    for (const [key, value] of Object.entries(props)) {
+                        $("#raw-parcel-info").append(`<tr><td class="parcel-info-label">${key}</td><td>${value}</td></tr>`);
+                    }
 
                     resolve(feature);
                 } else {
@@ -134,6 +145,7 @@ webmap._map.on('click', (e) => {
         }
         $("#parcel-info-loading").hide();
         $("#parcel-info-container").show();
+        if (showRaw) $("#raw-parcel-info").show();
     })
 });
 
@@ -145,6 +157,12 @@ $("#parcel-close").click(() => {
 // Generate link to Google Maps
 $("#parcel-gmaps-button").click(() => {
     window.open("https://www.google.com/maps/place/" + $("#info-body").attr("data-xy") + "/@" + $("#info-body").attr("data-xy") + ",200m/data=!3m1!1e3");
+});
+
+$("#parcel-raw-button").click(() => {
+    showRaw = !showRaw;
+    if (showRaw) $("#raw-parcel-info").show();
+    else $("#raw-parcel-info").hide();
 });
 
 function openInfoPane() {

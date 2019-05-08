@@ -46,6 +46,7 @@ webmap.on('load', function () {
 // Handle parcel identification
 let parcelMarker = null;
 webmap._map.on('click', (e) => {
+    $("#clickinfo").text(e.latlng);
     $("#parcel-owner").text("Loading...");
     $("#parcel-use").text("Loading...");
     $("#parcel-value").text("Loading...");
@@ -162,7 +163,7 @@ function openStoryPane() {
         $("#map-box").animate({left: "33vw"});
     } else {
         $("#story-box").animate({bottom: 0});
-        $("#map-box").animate({bottm: "50vh"});
+        $("#map-box").animate({bottom: "50vh"});
     }
     $("#story-box").attr("open", true)
 }
@@ -173,7 +174,7 @@ function closeStoryPane() {
         $("#map-box").animate({left: 0});
     } else {
         $("#story-box").animate({height: "50vh", bottom: "-50vh"});
-        $("#map-box").animate({bottm: 0});
+        $("#map-box").animate({bottom: 0});
     }
     $("#story-box").removeAttr("open")
 }
@@ -318,12 +319,22 @@ function openPath(path, hash = "", replace = false) {
             }
 
             if (rebindGallerize) rebindGallerize();
+            rebindMapcenterButtons();
             $("#story-content").show();
             if (!$("#story-box").attr("open")) {
                 openStoryPane();
             }
             focus(path, hash, replace);
         });
+    });
+}
+
+function rebindMapcenterButtons() {
+    $(".story-mapcenter-button").off("click");
+    $(".story-mapcenter-button").click(function () {
+        const xy = $(this).attr("data-xy").split(",");
+        webmap._map.flyTo(new L.latLng(...xy), 17);
+        webmap._map.fireEvent('click', {latlng: new L.latLng(...xy)});
     });
 }
 
@@ -349,11 +360,3 @@ $("#story-prev, #story-next").click(function () {
     const target = $(this).attr("data-target");
     if (target) openPath(target);
 });
-
-// function rebindMapcenterButtons() {
-//     $(".story-mapcenter-button").off("click");
-//     $(".story-mapcenter-button").click(function () {
-//        const xy = $(this).attr("data-xy").split(",");
-//        webmap._map.flyto
-//     });
-// }

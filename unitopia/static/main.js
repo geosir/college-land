@@ -208,6 +208,9 @@ function closeStoryPane() {
             webmap._map.invalidateSize()
         });
     }
+    $("#story-shrink").hide();
+    $("#story-expand").show();
+    $("#story-box").removeAttr("expanded");
     $("#story-box").removeAttr("open")
 }
 

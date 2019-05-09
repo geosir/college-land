@@ -68,7 +68,6 @@ webmap._map.on('click', (e) => {
         L.esri.query({
             url: 'https://services1.arcgis.com/qN3V93cYGMKQCOxL/arcgis/rest/services/Cambridge_Land_Use_2019_(LBCS)/FeatureServer/0',
         }).contains(e.latlng).run(function (error, featureCollection) {
-            console.log("Cambridge", featureCollection);
             if (featureCollection) {
                 const features = featureCollection.features.filter((f) => f.geometry);
                 if (features.length > 0) {
@@ -98,7 +97,6 @@ webmap._map.on('click', (e) => {
         L.esri.query({
             url: 'https://services1.arcgis.com/qN3V93cYGMKQCOxL/arcgis/rest/services/Boston_Land_Use_2019_(LBCS)/FeatureServer/0',
         }).contains(e.latlng).run(function (error, featureCollection) {
-            console.log("Boston", featureCollection);
             if (featureCollection) {
                 const features = featureCollection.features.filter((f) => f.geometry);
                 if (features.length > 0) {
@@ -319,7 +317,10 @@ function focus(path, hash = "", replace = false) {
         name: pages[path].name,
         type: "page"
     }, pages[path].name + " " + hash, rootPath + path + hash);
-    if (hash) window.location.hash = hash;
+    if (hash && $(hash).length) {
+        $("#story-content-container").scrollTop($(hash).position().top - $("#story-header").outerHeight());
+        $(document).scrollTop(0);
+    }
 }
 
 function openPath(path, hash = "", replace = false) {

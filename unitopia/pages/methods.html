@@ -1,1 +1,68 @@
 <h1>Methods</h1>
+<p>Work on this project was fundamentally a treasure hunt, both for data as well as historical references on
+    observations in the data. It involved gathering digital shape data for rendering the map; aggregating this data with
+    property assessment data, which was provided separately; processing and stylizing the data; and finally compiling it
+    into map image tiles for fast delivery. Once the Unitopia map was complete, the work of research involved
+    discovering interesting properties and regions on the map and looking for library or online references which might
+    explain those instances.</p>
+
+<h2>Gathering the Data</h2>
+<p>I began with Cambridge. First I obtained a
+    <a target="_blank"
+       href="https://github.com/cambridgegis/cambridgegis_data/blob/master/Assessing/FY2019/FY2019_Parcels/ASSESSING_ParcelsFY2019.geojson">GeoJSON
+        file describing parcel boundaries</a> from the <a class="story-link" tabindex="0"
+                                                          data-target="/references" data-hash="#cambridge_gis">Cambridge
+        GIS Dataset GitHub</a>. These did not have property data, so I wrote <a target="_blank"
+                                                                                href="https://github.com/geosir/unitopia/blob/gh-pages/scraping/merge_owners_cambridge.py">a
+        script</a> to scrape property data from the <a class="story-link" tabindex="0"
+                                                       data-target="/references" data-hash="#cambridge_property">Cambridge
+        Property Database</a>. This took a long time to run (about a 1.5 days), and in hindsight, the data was also
+    <a target="_blank"
+       href="https://github.com/cambridgegis/cambridgegis_data/blob/master/Assessing/FY2019/FY2019_Parcels/ASSESSING_PropertyDatabase_FY2019.csv">available
+        as a CSV file</a> in the same folder of the GitHub repository.
+    The result of the script was one large GeoJSON file with populated assessment fields for each parcel shape.</p>
+<p>Next was Boston, which sported a very similar process. I found the <a target="_blank"
+                                                                         href="https://data.boston.gov/dataset/parcels-20181">GeoJSON
+    file for the Boston parcels</a> from the <a class="story-link" tabindex="0" data-target="/references"
+                                                data-hash="#boston_data">Boston Open Data Portal</a>. Then, after
+    corresponding with the City of Boston Assessing Department, I was directed to an <a target="_blank"
+                                                                                        href="https://data.boston.gov/dataset/property-assessment/resource/695a8596-5458-442b-a017-7cd72471aade">online
+        record of their city assessment data</a>. Finally, I acquired a <a target="_blank"
+                                                                           href="https://data.boston.gov/dataset/property-assessment/resource/d6c1268c-cd83-4dc3-a914-bba1ed59da6d">list
+        of human-readable names</a> for property occupancy codes used in the assessment data in order to decode land
+    use. Once again, I wrote <a target="_blank"
+                                href="https://github.com/geosir/unitopia/blob/gh-pages/scraping/merge_owners_boston.py">a
+        script</a> to combine all of these into one large GeoJSON file with populated assessment fields for each parcel
+    shape.</p>
+
+<h2>Working the Data</h2>
+<p>To better visualize the data as I worked with it (and it do it efficiently, as all these shapes were slowing my
+    browser), I uploaded the data to ArcGIS, which we have a free license for as Harvard affiliates. There, I was able
+    to color the data according to the <a class="story-link" tabindex="0" data-target="/references" data-hash="#lbcs">LBCS
+        standard</a>.
+<p>This was also the stage in which I created the layers highlighting Harvard- and MIT-owned properties. This was
+    accomplished by inspecting the recorded owner names of known Harvard and MIT properties and using those names to
+    filter all of the properties by owner. This worked quite well and produced what looks to be most of the properties;
+    however, especially in the case of Harvard, many more owned properties might be listed under other owner names that
+    may be subsidiaries and can be quite obfuscated. Furthermore, the Boston ownership data was massively inconsistent,
+    often listing the same owner in many different formats, truncations, and abbreviations, which was difficult to work
+    with and may have resulted in missed data.</p>
+
+<h2>Serving the Data</h2>
+<p>After processing, the datasets for this project were on the order of several hundred megabytes; plus, displaying
+    thousands of individual polygons representing properties was difficult for my browser. I needed to find a way to
+    serve the data efficiently and lazily—that is, only load the data that was needed, and in a format that did not
+    require drawing individual polygons.</p>
+<p>The solution was to use ArcGIS services to compile the colored data layers into image map tiles. These loaded much
+    faster as the map would only need tens of these tiles at any time, and each tile would represent a drawing of
+    hundreds of shapes at once; plus, displaying images is much easier than drawing individual polygons.</p>
+<p>Unfortunately, transparency information is lost on the current implementation of map tiles in Unitopia (which is why
+    sometimes the streets are obscured by the land-usage colorings). For this reason, I did not compile the university
+    property outlines to tiles lest they should obscure the coloring beneath them.</p>
+
+<h2>Reference Roundup</h2>
+<p>Once I had a good visualization, I looked around the map for properties in interesting places, as well as properties
+    that surprised me to be owned by Harvard and MIT. I visited some of these properties on foot, such as Shaler Lane
+    and the Co-Op. Then, I got to work at the Francis Loeb Library, looking for Harvard planning documents and maps that
+    could give background on these interesting properties. The information I learned from these and other readings
+    became the explanatory essays included with Unitopia.</p>
